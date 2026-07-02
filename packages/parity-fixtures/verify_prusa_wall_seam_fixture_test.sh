@@ -267,6 +267,62 @@ test_unsupported_broad_claim_text_fails() {
 	assert_contains_all "${tmp_dir}/unsupported-broad-claim.err" "expected-wall-seam-summary.tsv" "forbidden"
 }
 
+test_deferred_surface_overclaim_mutations_fail() {
+	local deferred_term
+	local dir
+	local index=0
+	local readme_file
+	local stderr_file
+	local stdout_file
+
+	for deferred_term in \
+		"byte-for-byte G-code parity" \
+		"full generated-output parity" \
+		"broad generated-output verification" \
+		"full wall-seam algorithm equivalence" \
+		"wall-seam geometry equivalence" \
+		"seam visibility" \
+		"printability" \
+		"firmware behavior" \
+		"printer-runtime behavior" \
+		"GUI behavior" \
+		"support generation" \
+		"arc fitting behavior" \
+		"STEP import" \
+		"full 3MF import/export" \
+		"binary G-code" \
+		"thumbnails" \
+		"post-processing" \
+		"host upload" \
+		"network/device behavior" \
+		"profile auto-update execution" \
+		"fork release builds" \
+		"Bambu Studio" \
+		"OrcaSlicer" \
+		"upstream source imports" \
+		"release behavior" \
+		"sync automation" \
+		"non-Prusa fork behavior"; do
+		index=$((index + 1))
+		dir="${tmp_dir}/deferred-surface-overclaim-${index}"
+		readme_file="${dir}/packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam/README.md"
+		stdout_file="${tmp_dir}/deferred-surface-overclaim-${index}.out"
+		stderr_file="${tmp_dir}/deferred-surface-overclaim-${index}.err"
+
+		# Arrange
+		write_valid_fixture_copy "${dir}"
+		printf '\nPhase 63 proves %s.\n' "${deferred_term}" >>"${readme_file}"
+
+		# Act
+		if run_verifier "${dir}" "${stdout_file}" "${stderr_file}"; then
+			fail "deferred surface overclaim passed: ${deferred_term}"
+		fi
+
+		# Assert
+		assert_contains_all "${stderr_file}" "README.md" "forbidden Prusa wall-seam fixture overclaim"
+	done
+}
+
 test_wrong_source_ref_fails() {
 	# Arrange
 	local dir="${tmp_dir}/wrong-source-ref"
@@ -541,6 +597,7 @@ for test_name in \
 	test_out_of_order_wall_seam_row_fails \
 	test_unsupported_wall_seam_field_fails \
 	test_unsupported_broad_claim_text_fails \
+	test_deferred_surface_overclaim_mutations_fail \
 	test_wrong_source_ref_fails \
 	test_wrong_fixture_identity_fails \
 	test_wrong_fixture_path_fails \

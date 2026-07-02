@@ -243,31 +243,33 @@ reject_verifier_behavior_terms() {
 reject_overclaiming_text() {
 	local checked_file
 	local checked_label
-	local forbidden_claim
+	local checked_line
+	local allowed_boundary_pattern
+	local overclaim_pattern
+	local overclaim_term_then_verb_pattern
+	local overclaim_terms
+	local overclaim_verbs
+	local overclaim_verb_then_term_pattern
+	local term_host_upload
+
+	term_host_upload="host up""load"
+	overclaim_terms="Prusa wall-seam parity|byte-for-byte G-code parity|full generated-output parity|broad generated-output verification|full wall-seam algorithm equivalence|wall-seam geometry equivalence|seam visibility|printability|firmware behavior|printer-runtime behavior|GUI behavior|support generation|arc fitting behavior|STEP import|full 3MF import/export|binary G-code|thumbnails|post-processing|${term_host_upload}|network/device (behavior|integration)|profile auto-update execution|fork release builds|Bambu Studio|OrcaSlicer|upstream source imports?|release behavior|sync automation|sync behavior|non-Prusa fork behavior"
+	overclaim_verbs='proves|verified|verifies|validates?|confirms?|claims?|establishes?|demonstrates?|certifies?'
+	overclaim_verb_then_term_pattern="(^|[^[:alnum:]_])(${overclaim_verbs})([^[:alnum:]_]|$).*(${overclaim_terms})"
+	overclaim_term_then_verb_pattern="(${overclaim_terms}).*[^[:alnum:]_](${overclaim_verbs})([^[:alnum:]_]|$)"
+	overclaim_pattern="${overclaim_verb_then_term_pattern}|${overclaim_term_then_verb_pattern}"
+	allowed_boundary_pattern='does not|do not|no [^.]*claim|remain[s]? deferred'
 
 	for checked_file in "${fixture_readme}" "${package_readme}" "${provenance_file}" "${wall_summary_file}" "${BASH_SOURCE[0]}"; do
 		checked_label="$(basename "${checked_file}")"
-		for forbidden_claim in \
-			"verified Prusa wall-seam ""parity" \
-			"byte-for-byte G-code parity ""verified" \
-			"full generated-output parity ""verified" \
-			"broad generated-output verification ""verified" \
-			"full wall-seam algorithm equivalence ""verified" \
-			"wall-seam geometry equivalence ""verified" \
-			"seam visibility ""verified" \
-			"printability ""verified" \
-			"firmware behavior ""verified" \
-			"printer-runtime behavior ""verified" \
-			"GUI behavior ""verified" \
-			"support generation ""verified" \
-			"release behavior ""verified" \
-			"host ""upload verified" \
-			"Bambu Studio support ""verified" \
-			"OrcaSlicer support ""verified" \
-			"upstream import ""verified" \
-			"sync automation ""verified"; do
-			reject_text "${checked_file}" "${checked_label}" "${forbidden_claim}"
-		done
+		while IFS= read -r checked_line; do
+			if grep -Eiq -- "${allowed_boundary_pattern}" <<<"${checked_line}"; then
+				continue
+			fi
+			if grep -Eiq -- "${overclaim_pattern}" <<<"${checked_line}"; then
+				error "${checked_label}: forbidden Prusa wall-seam fixture overclaim"
+			fi
+		done <"${checked_file}"
 	done
 }
 
