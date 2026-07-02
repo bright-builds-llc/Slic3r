@@ -11,6 +11,8 @@ fi
 verifier="${workspace_root}/packages/parity-fixtures/verify_prusa_wall_seam_fixture.sh"
 source_fixture_dir="${workspace_root}/packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam"
 source_status_file="${workspace_root}/packages/parity/status.tsv"
+readonly PUBLISHED_PHASE_65_SENTENCE="Phase 65 publishes bazel run //packages/parity:prusaslicer_wall_seam_parity and the fork.prusaslicer.wall-seam status row for checked-in wall-seam summary evidence only."
+readonly STALE_PHASE_65_SENTENCE="Phase 65 owns future bazel run //packages/parity:prusaslicer_wall_seam_parity evidence and the planned fork.prusaslicer.wall-seam status row."
 
 tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/verify-prusa-wall-seam-fixture-test.XXXXXX")"
 trap 'rm -rf "${tmp_dir}"' EXIT
@@ -120,7 +122,7 @@ Phase 63 adds the Prusa wall-seam fixture namespace at `packages/parity-fixtures
 
 ## Current State
 
-Phase 64 owns `slic3r_flavors::prusa_wall_seam`. Phase 65 owns `bazel run //packages/parity:prusaslicer_wall_seam_parity` and `fork.prusaslicer.wall-seam`. Phase 63 does not update `packages/parity/status.tsv`, public parity behavior, Rust crates, or `docs/port/*`.
+Phase 64 owns `slic3r_flavors::prusa_wall_seam`. Phase 65 publishes bazel run //packages/parity:prusaslicer_wall_seam_parity and the fork.prusaslicer.wall-seam status row for checked-in wall-seam summary evidence only. Phase 63 does not update `packages/parity/status.tsv`, public parity behavior, Rust crates, or `docs/port/*`.
 
 The broad `generated-outputs` status remains `in progress`, the existing `fork.prusaslicer.gcode-output` row remains limited to semantic G-code evidence, and the existing `fork.prusaslicer.arc-fitting` row remains limited to checked-in arc summary evidence.
 README
@@ -354,6 +356,24 @@ test_stale_package_readme_reference_fails() {
 	assert_contains_all "${tmp_dir}/stale-package-readme.err" "packages/parity-fixtures/README.md" "Phase 63 adds the Prusa wall-seam fixture namespace"
 }
 
+test_stale_phase65_package_readme_wording_fails() {
+	# Arrange
+	local dir="${tmp_dir}/stale-phase65-package-readme-wording"
+	local readme_file="${dir}/packages/parity-fixtures/README.md"
+	local stale_readme_line
+	write_valid_fixture_copy "${dir}"
+	stale_readme_line="Phase 64 owns \`slic3r_flavors::prusa_wall_seam\`. ${STALE_PHASE_65_SENTENCE} Phase 63 does not update \`packages/parity/status.tsv\`, public parity behavior, Rust crates, or \`docs/port/*\`."
+	replace_first_line_containing "${readme_file}" "${PUBLISHED_PHASE_65_SENTENCE}" "${stale_readme_line}"
+
+	# Act
+	if run_verifier "${dir}" "${tmp_dir}/stale-phase65-package-readme.out" "${tmp_dir}/stale-phase65-package-readme.err"; then
+		fail "stale Phase 65 package README wording passed"
+	fi
+
+	# Assert
+	assert_contains_all "${tmp_dir}/stale-phase65-package-readme.err" "packages/parity-fixtures/README.md" "Phase 65 publishes"
+}
+
 test_provenance_mismatch_fails() {
 	# Arrange
 	local dir="${tmp_dir}/provenance-mismatch"
@@ -526,6 +546,7 @@ for test_name in \
 	test_wrong_fixture_path_fails \
 	test_stale_namespace_readme_reference_fails \
 	test_stale_package_readme_reference_fails \
+	test_stale_phase65_package_readme_wording_fails \
 	test_provenance_mismatch_fails \
 	test_fixture_checksum_drift_fails \
 	test_generated_outputs_status_promotion_fails \

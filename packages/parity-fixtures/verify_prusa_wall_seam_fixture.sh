@@ -58,6 +58,8 @@ readonly PROVENANCE_ROW=$'wall-seam-observations.gcode\tprusaslicer\tprusaslicer
 readonly GCODE_OUTPUT_STATUS_ROW=$'fork.prusaslicer.gcode-output\tverified\t//packages/parity:prusaslicer_gcode_output_parity\tShared fixture comparison proves the narrow semantic Prusa G-code evidence slice backed by the Phase 53 closed semantic scope contract, Phase 54 semantic fixture summary, Phase 55 Rust semantic parser/readiness boundary, and Phase 56 public parity command only; byte-for-byte G-code parity, full generated-output parity, toolpath geometry, extrusion behavior, timing, support generation, wall seam behavior, arc fitting, STEP import, full 3MF import/export, printer-runtime behavior, firmware or printability, GUI export or viewer behavior, binary G-code, thumbnails, post-processing, host '$'upload, network/device integration, profile auto-update execution, fork release builds, Bambu Studio, OrcaSlicer, upstream source imports, release behavior, and sync automation remain deferred'
 readonly ARC_FITTING_STATUS_ROW=$'fork.prusaslicer.arc-fitting\tverified\t//packages/parity:prusaslicer_arc_fitting_parity\tShared fixture comparison proves the narrow Prusa arc-fitting checked-in summary evidence slice backed by the Phase 57 scope contract, Phase 58 fixture corpus, Phase 59 Rust parser/readiness boundary, and Phase 60 public parity command only; byte-for-byte G-code parity, full generated-output parity, broad generated-output verification, full ArcWelder algorithm equivalence, tolerance or geometry parity, printability, firmware behavior, printer-runtime behavior, GUI behavior, support generation, wall seam behavior, STEP import, full 3MF import/export, binary G-code, thumbnails, post-processing, host '$'upload, network/device behavior, profile auto-update execution, fork release builds, Bambu Studio, OrcaSlicer, upstream source imports, release behavior, sync automation, and non-Prusa fork behavior remain deferred'
 readonly WALL_SEAM_STATUS_ROW=$'fork.prusaslicer.wall-seam\tverified\t//packages/parity:prusaslicer_wall_seam_parity\tShared fixture comparison proves the narrow Prusa wall-seam checked-in summary evidence slice backed by the Phase 62 scope contract, Phase 63 fixture corpus, Phase 64 Rust parser/readiness boundary, and Phase 65 public command/status/docs only; byte-for-byte G-code parity, full generated-output parity, broad generated-output verification, full wall-seam algorithm equivalence, wall-seam geometry equivalence, seam visibility, printability, firmware behavior, printer-runtime behavior, GUI behavior, support generation, arc fitting behavior, STEP import, full 3MF import/export, binary G-code, thumbnails, post-processing, host '$'upload, network/device behavior, profile auto-update execution, fork release builds, Bambu Studio, OrcaSlicer, upstream source imports, release behavior, sync automation, and non-Prusa fork behavior remain deferred'
+readonly PHASE65_PUBLISHED_DOC_SENTENCE="Phase 65 publishes bazel run //packages/parity:prusaslicer_wall_seam_parity and the fork.prusaslicer.wall-seam status row for checked-in wall-seam summary evidence only."
+readonly PHASE65_STALE_OWNED_DOC_SENTENCE="Phase 65 owns ""future bazel run //packages/parity:prusaslicer_wall_seam_parity evidence and the planned fork.prusaslicer.wall-seam status row."
 readonly GCODE_LINE_1="; wall-seam observation fixture"
 readonly GCODE_LINE_2="; source_anchor:SeamAligned.cpp#L16;SeamAligned.cpp#L115-L148;SeamAligned.cpp#L272-L313;SeamAligned.cpp#L463-L525"
 readonly GCODE_LINE_3="; layer_context:layer=0;z=0.200"
@@ -428,9 +430,8 @@ verify_namespace_readme() {
 	require_text "${fixture_readme}" "fixture README" "Phase 63 owns only the checked-in \`prusaslicer.wall-seam\` fixture namespace"
 	require_text "${fixture_readme}" "fixture README" "Phase 64 owns"
 	require_text "${fixture_readme}" "fixture README" "\`slic3r_flavors::prusa_wall_seam\` Rust parser/readiness work"
-	require_text "${fixture_readme}" "fixture README" "Phase 65 owns"
-	require_text "${fixture_readme}" "fixture README" "\`bazel run //packages/parity:prusaslicer_wall_seam_parity\`"
-	require_text "${fixture_readme}" "fixture README" "\`fork.prusaslicer.wall-seam\` status row"
+	require_text "${fixture_readme}" "fixture README" "${PHASE65_PUBLISHED_DOC_SENTENCE}"
+	reject_text "${fixture_readme}" "fixture README" "${PHASE65_STALE_OWNED_DOC_SENTENCE}"
 }
 
 verify_package_readme() {
@@ -445,9 +446,8 @@ verify_package_readme() {
 	require_text "${package_readme}" "packages/parity-fixtures/README.md" "${SOURCE_PATH}"
 	require_text "${package_readme}" "packages/parity-fixtures/README.md" "Phase 64 owns"
 	require_text "${package_readme}" "packages/parity-fixtures/README.md" "\`slic3r_flavors::prusa_wall_seam\`"
-	require_text "${package_readme}" "packages/parity-fixtures/README.md" "Phase 65 owns"
-	require_text "${package_readme}" "packages/parity-fixtures/README.md" "\`bazel run //packages/parity:prusaslicer_wall_seam_parity\`"
-	require_text "${package_readme}" "packages/parity-fixtures/README.md" "\`fork.prusaslicer.wall-seam\`"
+	require_text "${package_readme}" "packages/parity-fixtures/README.md" "${PHASE65_PUBLISHED_DOC_SENTENCE}"
+	reject_text "${package_readme}" "packages/parity-fixtures/README.md" "${PHASE65_STALE_OWNED_DOC_SENTENCE}"
 	require_text "${package_readme}" "packages/parity-fixtures/README.md" "Phase 63 does not update \`packages/parity/status.tsv\`"
 	require_text "${package_readme}" "packages/parity-fixtures/README.md" "broad \`generated-outputs\` status remains \`in progress\`"
 	require_text "${package_readme}" "packages/parity-fixtures/README.md" "\`fork.prusaslicer.gcode-output\` row remains limited"
