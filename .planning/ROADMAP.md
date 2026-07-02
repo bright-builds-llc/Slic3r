@@ -225,7 +225,7 @@ exact public status/docs for the narrow PrusaSlicer wall-seam slice.
 
 Plans:
 
-- [ ] 65-01-PLAN.md - Add Rust-backed public wall-seam evidence command.
+- [x] 65-01-PLAN.md - Add Rust-backed public wall-seam evidence command.
 - [ ] 65-02-PLAN.md - Add fail-closed public wall-seam mutation guards.
 - [ ] 65-03-PLAN.md - Publish exact wall-seam status row and verifier guards.
 - [ ] 65-04-PLAN.md - Publish package and fixture docs with fixture verifier checks.
@@ -263,7 +263,7 @@ Phases execute in numeric order: 62 -> 63 -> 64 -> 65
 | 62. Wall-Seam Scope Contract | 3/3 | Complete   | 2026-06-26 |
 | 63. Wall-Seam Fixture Corpus | 2/2 | Complete   | 2026-06-27 |
 | 64. Rust Wall-Seam Evidence Boundary | 2/2 | Complete   | 2026-06-30 |
-| 65. Executable Wall-Seam Evidence | 0/6 | Pending | - |
+| 65. Executable Wall-Seam Evidence | 1/6 | In Progress|  |
 
 ## Planning Notes
 
