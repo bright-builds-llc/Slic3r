@@ -344,7 +344,7 @@ reject_overclaiming_text() {
 	local overclaim_verbs
 	local overclaim_verb_then_term_pattern
 
-	overclaim_terms='byte-for-byte G-code parity|full generated-output parity|broad generated-output parity|broad generated-output verification|full wall-seam algorithm equivalence|wall-seam geometry equivalence|seam visibility|printability|printer-runtime behavior|firmware behavior|support generation|GUI behavior|release behavior|network/device behavior|non-Prusa fork behavior|Bambu Studio support|OrcaSlicer support|upstream source imports|sync automation'
+	overclaim_terms='byte-for-byte G-code parity|full generated-output parity|broad generated-output parity|broad generated-output verification|full wall-seam algorithm or geometry equivalence|full wall-seam algorithm equivalence|wall-seam geometry equivalence|seam visibility|printability|firmware behavior|printer-runtime behavior|GUI behavior|support generation|STEP import|full 3MF import/export|binary G-code|thumbnails|post-processing|host upload|network/device behavior|profile auto-update execution|fork release builds|Bambu Studio|OrcaSlicer|upstream source imports|release behavior|sync automation|non-Prusa fork behavior'
 	overclaim_verbs='proves|verified|verifies|validates?|confirms?|claims?|establishes?|demonstrates?|certifies?'
 	overclaim_verb_then_term_pattern="Phase 62[^.]*[^[:alnum:]_](${overclaim_verbs})[^[:alnum:]_][^.]*(${overclaim_terms})"
 	overclaim_term_then_verb_pattern="Phase 62[^.]*(${overclaim_terms})[^.]*[^[:alnum:]_](${overclaim_verbs})[^[:alnum:]_]"
@@ -408,14 +408,25 @@ verify_deferred_scope_terms() {
 		"full wall-seam algorithm or geometry equivalence" \
 		"seam visibility" \
 		"printability" \
+		"firmware behavior" \
 		"printer-runtime behavior" \
-		"support generation" \
 		"GUI behavior" \
-		"release behavior" \
+		"support generation" \
+		"STEP import" \
+		"full 3MF import/export" \
+		"binary G-code" \
+		"thumbnails" \
+		"post-processing" \
+		"host upload" \
 		"network/device behavior" \
-		"non-Prusa fork behavior" \
+		"profile auto-update execution" \
+		"fork release builds" \
+		"Bambu Studio" \
+		"OrcaSlicer" \
 		"upstream source imports" \
-		"sync automation"; do
+		"release behavior" \
+		"sync automation" \
+		"non-Prusa fork behavior"; do
 		require_text "${scope_file}" "wall-seam-scope.md" "${deferred_term}"
 	done
 }

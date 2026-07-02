@@ -484,6 +484,58 @@ test_algorithm_equivalence_overclaim_fails() {
 	assert_contains "${tmp_dir}/algorithm-overclaim.err" 'full wall-seam algorithm equivalence'
 }
 
+test_deferred_scope_overclaim_mutations_fail() {
+	local deferred_term
+	local dir
+	local index=0
+	local stderr_file
+	local stdout_file
+
+	for deferred_term in \
+		"byte-for-byte G-code parity" \
+		"broad generated-output verification" \
+		"full wall-seam algorithm or geometry equivalence" \
+		"seam visibility" \
+		"printability" \
+		"firmware behavior" \
+		"printer-runtime behavior" \
+		"GUI behavior" \
+		"support generation" \
+		"STEP import" \
+		"full 3MF import/export" \
+		"binary G-code" \
+		"thumbnails" \
+		"post-processing" \
+		"host upload" \
+		"network/device behavior" \
+		"profile auto-update execution" \
+		"fork release builds" \
+		"Bambu Studio" \
+		"OrcaSlicer" \
+		"upstream source imports" \
+		"release behavior" \
+		"sync automation" \
+		"non-Prusa fork behavior"; do
+		index=$((index + 1))
+		dir="${tmp_dir}/deferred-scope-overclaim-${index}"
+		stdout_file="${tmp_dir}/deferred-scope-overclaim-${index}.out"
+		stderr_file="${tmp_dir}/deferred-scope-overclaim-${index}.err"
+
+		# Arrange
+		write_valid_fixture "${dir}"
+		printf '\nPhase 62 proves %s.\n' "${deferred_term}" >>"${dir}/README.md"
+
+		# Act
+		if run_verifier "${dir}" "${stdout_file}" "${stderr_file}"; then
+			fail "deferred scope overclaim fixture passed: ${deferred_term}"
+		fi
+
+		# Assert
+		assert_contains "${stderr_file}" '^error:'
+		assert_contains "${stderr_file}" 'forbidden Prusa wall-seam scope'
+	done
+}
+
 test_valid_fixture_passes
 test_missing_required_scope_row_fails
 test_missing_wall_seam_field_fails
@@ -505,5 +557,6 @@ test_runtime_overclaim_fails
 test_printability_overclaim_fails
 test_seam_visibility_overclaim_fails
 test_algorithm_equivalence_overclaim_fails
+test_deferred_scope_overclaim_mutations_fail
 
 printf 'ok: verify_prusa_wall_seam_scope_test\n'
