@@ -229,7 +229,7 @@ Plans:
 - [x] 65-02-PLAN.md - Add fail-closed public wall-seam mutation guards.
 - [x] 65-03-PLAN.md - Publish exact wall-seam status row and verifier guards.
 - [x] 65-04-PLAN.md - Publish package and fixture docs with fixture verifier checks.
-- [ ] 65-05-PLAN.md - Publish wall-seam scope docs with scope verifier checks.
+- [x] 65-05-PLAN.md - Publish wall-seam scope docs with scope verifier checks.
 - [ ] 65-06-PLAN.md - Publish public port docs for the narrow wall-seam slice.
 
 ## Coverage
@@ -263,7 +263,7 @@ Phases execute in numeric order: 62 -> 63 -> 64 -> 65
 | 62. Wall-Seam Scope Contract | 3/3 | Complete   | 2026-06-26 |
 | 63. Wall-Seam Fixture Corpus | 2/2 | Complete   | 2026-06-27 |
 | 64. Rust Wall-Seam Evidence Boundary | 2/2 | Complete   | 2026-06-30 |
-| 65. Executable Wall-Seam Evidence | 4/6 | In Progress|  |
+| 65. Executable Wall-Seam Evidence | 5/6 | In Progress|  |
 
 ## Planning Notes
 
