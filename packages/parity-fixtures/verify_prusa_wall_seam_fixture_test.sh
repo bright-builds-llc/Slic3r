@@ -405,6 +405,59 @@ test_generated_outputs_status_promotion_fails() {
 	assert_contains_all "${tmp_dir}/generated-outputs-status-promotion.err" "packages/parity/status.tsv" "generated-outputs"
 }
 
+test_missing_wall_seam_status_row_fails() {
+	# Arrange
+	local dir="${tmp_dir}/missing-wall-seam-status-row"
+	local status_file="${dir}/packages/parity/status.tsv"
+	write_valid_fixture_copy "${dir}"
+	remove_line_containing "${status_file}" "fork.prusaslicer.wall-seam"
+
+	# Act
+	if run_verifier "${dir}" "${tmp_dir}/missing-wall-seam-status-row.out" "${tmp_dir}/missing-wall-seam-status-row.err"; then
+		fail "missing fork.prusaslicer.wall-seam status row passed"
+	fi
+
+	# Assert
+	assert_contains_all "${tmp_dir}/missing-wall-seam-status-row.err" "packages/parity/status.tsv" "fork.prusaslicer.wall-seam"
+}
+
+test_duplicate_wall_seam_status_row_fails() {
+	# Arrange
+	local dir="${tmp_dir}/duplicate-wall-seam-status-row"
+	local status_file="${dir}/packages/parity/status.tsv"
+	local wall_status_row
+	write_valid_fixture_copy "${dir}"
+	wall_status_row="$(status_row_for_surface "${status_file}" "fork.prusaslicer.wall-seam")"
+	printf '%s\n' "${wall_status_row}" >>"${status_file}"
+
+	# Act
+	if run_verifier "${dir}" "${tmp_dir}/duplicate-wall-seam-status-row.out" "${tmp_dir}/duplicate-wall-seam-status-row.err"; then
+		fail "duplicate fork.prusaslicer.wall-seam status row passed"
+	fi
+
+	# Assert
+	assert_contains_all "${tmp_dir}/duplicate-wall-seam-status-row.err" "packages/parity/status.tsv" "fork.prusaslicer.wall-seam"
+}
+
+test_wrong_wall_seam_status_target_fails() {
+	# Arrange
+	local dir="${tmp_dir}/wrong-wall-seam-status-target"
+	local status_file="${dir}/packages/parity/status.tsv"
+	local wrong_status_row
+	write_valid_fixture_copy "${dir}"
+	wrong_status_row="$(status_row_for_surface "${status_file}" "fork.prusaslicer.wall-seam")"
+	wrong_status_row="${wrong_status_row//\/\/packages\/parity:prusaslicer_wall_seam_parity/\/\/packages\/parity:prusaslicer_arc_fitting_parity}"
+	replace_first_line_containing "${status_file}" "fork.prusaslicer.wall-seam" "${wrong_status_row}"
+
+	# Act
+	if run_verifier "${dir}" "${tmp_dir}/wrong-wall-seam-status-target.out" "${tmp_dir}/wrong-wall-seam-status-target.err"; then
+		fail "wrong fork.prusaslicer.wall-seam evidence target passed"
+	fi
+
+	# Assert
+	assert_contains_all "${tmp_dir}/wrong-wall-seam-status-target.err" "packages/parity/status.tsv" "//packages/parity:prusaslicer_wall_seam_parity"
+}
+
 test_gcode_output_status_widening_fails() {
 	# Arrange
 	local dir="${tmp_dir}/gcode-output-status-widening"
@@ -431,7 +484,7 @@ test_arc_fitting_status_widening_fails() {
 	local wrong_status_row
 	write_valid_fixture_copy "${dir}"
 	wrong_status_row="$(status_row_for_surface "${status_file}" "fork.prusaslicer.arc-fitting")"
-	wrong_status_row="${wrong_status_row//checked-in summary evidence slice/checked-in summary and wall-seam evidence slice}"
+	wrong_status_row="${wrong_status_row//narrow Prusa arc-fitting checked-in summary evidence slice/narrow Prusa arc-fitting and wall-seam checked-in summary evidence slice}"
 	replace_first_line_containing "${status_file}" "fork.prusaslicer.arc-fitting" "${wrong_status_row}"
 
 	# Act
@@ -441,22 +494,6 @@ test_arc_fitting_status_widening_fails() {
 
 	# Assert
 	assert_contains_all "${tmp_dir}/arc-fitting-status-widening.err" "packages/parity/status.tsv" "fork.prusaslicer.arc-fitting"
-}
-
-test_premature_wall_seam_status_publication_fails() {
-	# Arrange
-	local dir="${tmp_dir}/premature-wall-seam-status-publication"
-	local status_file="${dir}/packages/parity/status.tsv"
-	write_valid_fixture_copy "${dir}"
-	printf '%s\n' $'fork.prusaslicer.wall-seam\tverified\t//packages/parity:prusaslicer_wall_seam_parity\tPremature wall-seam status publication.' >>"${status_file}"
-
-	# Act
-	if run_verifier "${dir}" "${tmp_dir}/premature-wall-seam-status.out" "${tmp_dir}/premature-wall-seam-status.err"; then
-		fail "premature fork.prusaslicer.wall-seam status row passed"
-	fi
-
-	# Assert
-	assert_contains_all "${tmp_dir}/premature-wall-seam-status.err" "packages/parity/status.tsv" "fork.prusaslicer.wall-seam"
 }
 
 test_forbidden_verifier_behavior_fails() {
@@ -492,9 +529,11 @@ for test_name in \
 	test_provenance_mismatch_fails \
 	test_fixture_checksum_drift_fails \
 	test_generated_outputs_status_promotion_fails \
+	test_missing_wall_seam_status_row_fails \
+	test_duplicate_wall_seam_status_row_fails \
+	test_wrong_wall_seam_status_target_fails \
 	test_gcode_output_status_widening_fails \
 	test_arc_fitting_status_widening_fails \
-	test_premature_wall_seam_status_publication_fails \
 	test_forbidden_verifier_behavior_fails; do
 	"${test_name}"
 done
