@@ -339,6 +339,39 @@ test_same_line_deferred_surface_overclaim_fails() {
 	assert_contains_all "${tmp_dir}/same-line-deferred-surface-overclaim.err" "README.md" "forbidden Prusa wall-seam fixture overclaim"
 }
 
+test_deferral_only_surface_text_passes() {
+	# Arrange
+	local dir="${tmp_dir}/deferral-only-surface-text"
+	local readme_file="${dir}/packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam/README.md"
+	write_valid_fixture_copy "${dir}"
+	printf '\nsync automation remains deferred.\n' >>"${readme_file}"
+
+	# Act
+	if ! run_verifier "${dir}" "${tmp_dir}/deferral-only-surface-text.out" "${tmp_dir}/deferral-only-surface-text.err"; then
+		sed -n '1,200p' "${tmp_dir}/deferral-only-surface-text.err" >&2
+		fail "deferral-only surface text failed"
+	fi
+
+	# Assert
+	assert_file_equals "${tmp_dir}/deferral-only-surface-text.out" "ok: Prusa wall-seam fixture verification passed"
+}
+
+test_comma_conjunction_deferred_surface_overclaim_fails() {
+	# Arrange
+	local dir="${tmp_dir}/comma-conjunction-deferred-surface-overclaim"
+	local readme_file="${dir}/packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam/README.md"
+	write_valid_fixture_copy "${dir}"
+	printf '\nPhase 63 proves profile auto-update execution, and sync automation remains deferred.\n' >>"${readme_file}"
+
+	# Act
+	if run_verifier "${dir}" "${tmp_dir}/comma-conjunction-deferred-surface-overclaim.out" "${tmp_dir}/comma-conjunction-deferred-surface-overclaim.err"; then
+		fail "comma conjunction deferred surface overclaim passed"
+	fi
+
+	# Assert
+	assert_contains_all "${tmp_dir}/comma-conjunction-deferred-surface-overclaim.err" "README.md" "forbidden Prusa wall-seam fixture overclaim"
+}
+
 test_wrong_source_ref_fails() {
 	# Arrange
 	local dir="${tmp_dir}/wrong-source-ref"
@@ -615,6 +648,8 @@ for test_name in \
 	test_unsupported_broad_claim_text_fails \
 	test_deferred_surface_overclaim_mutations_fail \
 	test_same_line_deferred_surface_overclaim_fails \
+	test_deferral_only_surface_text_passes \
+	test_comma_conjunction_deferred_surface_overclaim_fails \
 	test_wrong_source_ref_fails \
 	test_wrong_fixture_identity_fails \
 	test_wrong_fixture_path_fails \

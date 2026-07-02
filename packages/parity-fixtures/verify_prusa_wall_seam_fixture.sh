@@ -267,6 +267,17 @@ reject_overclaiming_text() {
 		while IFS= read -r checked_line; do
 			checked_segments="${checked_line//;/$'\n'}"
 			checked_segments="${checked_segments//./$'\n'}"
+			checked_segments="$(
+				awk '
+					/remain[s]? deferred/ {
+						gsub(/,[[:space:]]+/, "\n")
+						gsub(/[[:space:]]+(and|but)[[:space:]]+/, "\n")
+					}
+					{
+						print
+					}
+				' <<<"${checked_segments}"
+			)"
 			while IFS= read -r checked_segment; do
 				if [[ -z "${checked_segment//[[:space:]]/}" ]]; then
 					continue
