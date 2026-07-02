@@ -47,6 +47,7 @@ readonly WALL_SEAM_INVENTORY_ROW=$'prusaslicer.wall-seam\tprusaslicer\tprusaslic
 readonly SEAM_CATEGORY_MAP_ID="seam.shared"
 readonly GCODE_OUTPUT_STATUS_ROW=$'fork.prusaslicer.gcode-output\tverified\t//packages/parity:prusaslicer_gcode_output_parity\tShared fixture comparison proves the narrow semantic Prusa G-code evidence slice backed by the Phase 53 closed semantic scope contract, Phase 54 semantic fixture summary, Phase 55 Rust semantic parser/readiness boundary, and Phase 56 public parity command only; byte-for-byte G-code parity, full generated-output parity, toolpath geometry, extrusion behavior, timing, support generation, wall seam behavior, arc fitting, STEP import, full 3MF import/export, printer-runtime behavior, firmware or printability, GUI export or viewer behavior, binary G-code, thumbnails, post-processing, host upload, network/device integration, profile auto-update execution, fork release builds, Bambu Studio, OrcaSlicer, upstream source imports, release behavior, and sync automation remain deferred'
 readonly ARC_FITTING_STATUS_ROW=$'fork.prusaslicer.arc-fitting\tverified\t//packages/parity:prusaslicer_arc_fitting_parity\tShared fixture comparison proves the narrow Prusa arc-fitting checked-in summary evidence slice backed by the Phase 57 scope contract, Phase 58 fixture corpus, Phase 59 Rust parser/readiness boundary, and Phase 60 public parity command only; byte-for-byte G-code parity, full generated-output parity, broad generated-output verification, full ArcWelder algorithm equivalence, tolerance or geometry parity, printability, firmware behavior, printer-runtime behavior, GUI behavior, support generation, wall seam behavior, STEP import, full 3MF import/export, binary G-code, thumbnails, post-processing, host upload, network/device behavior, profile auto-update execution, fork release builds, Bambu Studio, OrcaSlicer, upstream source imports, release behavior, sync automation, and non-Prusa fork behavior remain deferred'
+readonly WALL_SEAM_STATUS_ROW=$'fork.prusaslicer.wall-seam\tverified\t//packages/parity:prusaslicer_wall_seam_parity\tShared fixture comparison proves the narrow Prusa wall-seam checked-in summary evidence slice backed by the Phase 62 scope contract, Phase 63 fixture corpus, Phase 64 Rust parser/readiness boundary, and Phase 65 public command/status/docs only; byte-for-byte G-code parity, full generated-output parity, broad generated-output verification, full wall-seam algorithm equivalence, wall-seam geometry equivalence, seam visibility, printability, firmware behavior, printer-runtime behavior, GUI behavior, support generation, arc fitting behavior, STEP import, full 3MF import/export, binary G-code, thumbnails, post-processing, host upload, network/device behavior, profile auto-update execution, fork release builds, Bambu Studio, OrcaSlicer, upstream source imports, release behavior, sync automation, and non-Prusa fork behavior remain deferred'
 readonly SCOPE_RECORD_SECTION="## Scope Record"
 readonly SOURCE_ROW_SECTION="## Source Row Details"
 readonly WALL_SEAM_FIELD_SECTION="## Approved Wall-Seam Evidence Fields"
@@ -315,7 +316,6 @@ verify_inventory_row() {
 
 verify_status_boundaries() {
 	local generated_count
-	local wall_seam_status_count
 
 	generated_count="$(awk -F '\t' '$1 == "generated-outputs" && $2 == "in progress" { count++ } END { print count + 0 }' "${status_file}")"
 	if [[ "${generated_count}" != "1" ]]; then
@@ -329,10 +329,8 @@ verify_status_boundaries() {
 	require_exact_tsv_row_once "${status_file}" "packages/parity/status.tsv" "${ARC_FITTING_STATUS_ROW}"
 	require_first_field_count "${status_file}" "packages/parity/status.tsv" "fork.prusaslicer.arc-fitting" "1"
 
-	wall_seam_status_count="$(awk -F '\t' '$1 == "fork.prusaslicer.wall-seam" { count++ } END { print count + 0 }' "${status_file}")"
-	if [[ "${wall_seam_status_count}" != "0" ]]; then
-		error "packages/parity/status.tsv: no verified fork.prusaslicer.wall-seam status row may be published in Phase 62"
-	fi
+	require_exact_tsv_row_once "${status_file}" "packages/parity/status.tsv" "${WALL_SEAM_STATUS_ROW}"
+	require_first_field_count "${status_file}" "packages/parity/status.tsv" "fork.prusaslicer.wall-seam" "1"
 }
 
 reject_overclaiming_text() {

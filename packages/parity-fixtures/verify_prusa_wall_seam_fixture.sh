@@ -57,6 +57,7 @@ readonly PROVENANCE_HEADER=$'fixture_id\tvendor_id\tinventory_id\tsource_ref\tac
 readonly PROVENANCE_ROW=$'wall-seam-observations.gcode\tprusaslicer\tprusaslicer.wall-seam\tprusaslicer:version_2.9.5@9a583bd438b195856f3bcf7ea99b69ba4003a961\tversion_2.9.5\t9a583bd438b195856f3bcf7ea99b69ba4003a961\tsrc/libslic3r/GCode/SeamAligned.cpp\tSeamAligned.cpp#L16;SeamAligned.cpp#L115-L148;SeamAligned.cpp#L272-L313;SeamAligned.cpp#L463-L525\t360\t9a6306f382e64365ec6e11952f360195bca37fa442f29c7c7f616e1705a6bdad\tascii-lf\treviewed-wall-seam-observation-fixture\tpackages/prusa-wall-seam-scope/wall-seam-scope.md\treviewed-intake-change-updates-packages/fork-vendors/forks.tsv-packages/fork-inventories/prusaslicer.tsv-and-packages/prusa-wall-seam-scope/wall-seam-scope.md\tPhase-63-fixture-corpus-only-no-parity-status\tno-generator-no-runtime-no-network-no-sync-no-host-upload-no-post-processing-no-thumbnail-no-printability-no-gui\tno-byte-for-byte-gcode-parity-no-full-wall-seam-algorithm-equivalence-no-seam-visibility-no-generated-output-status-promotion-no-printer-runtime-no-firmware-no-support-no-arc-fitting-no-release-no-bambu-no-orca-no-upstream-source-import-no-sync'
 readonly GCODE_OUTPUT_STATUS_ROW=$'fork.prusaslicer.gcode-output\tverified\t//packages/parity:prusaslicer_gcode_output_parity\tShared fixture comparison proves the narrow semantic Prusa G-code evidence slice backed by the Phase 53 closed semantic scope contract, Phase 54 semantic fixture summary, Phase 55 Rust semantic parser/readiness boundary, and Phase 56 public parity command only; byte-for-byte G-code parity, full generated-output parity, toolpath geometry, extrusion behavior, timing, support generation, wall seam behavior, arc fitting, STEP import, full 3MF import/export, printer-runtime behavior, firmware or printability, GUI export or viewer behavior, binary G-code, thumbnails, post-processing, host '$'upload, network/device integration, profile auto-update execution, fork release builds, Bambu Studio, OrcaSlicer, upstream source imports, release behavior, and sync automation remain deferred'
 readonly ARC_FITTING_STATUS_ROW=$'fork.prusaslicer.arc-fitting\tverified\t//packages/parity:prusaslicer_arc_fitting_parity\tShared fixture comparison proves the narrow Prusa arc-fitting checked-in summary evidence slice backed by the Phase 57 scope contract, Phase 58 fixture corpus, Phase 59 Rust parser/readiness boundary, and Phase 60 public parity command only; byte-for-byte G-code parity, full generated-output parity, broad generated-output verification, full ArcWelder algorithm equivalence, tolerance or geometry parity, printability, firmware behavior, printer-runtime behavior, GUI behavior, support generation, wall seam behavior, STEP import, full 3MF import/export, binary G-code, thumbnails, post-processing, host '$'upload, network/device behavior, profile auto-update execution, fork release builds, Bambu Studio, OrcaSlicer, upstream source imports, release behavior, sync automation, and non-Prusa fork behavior remain deferred'
+readonly WALL_SEAM_STATUS_ROW=$'fork.prusaslicer.wall-seam\tverified\t//packages/parity:prusaslicer_wall_seam_parity\tShared fixture comparison proves the narrow Prusa wall-seam checked-in summary evidence slice backed by the Phase 62 scope contract, Phase 63 fixture corpus, Phase 64 Rust parser/readiness boundary, and Phase 65 public command/status/docs only; byte-for-byte G-code parity, full generated-output parity, broad generated-output verification, full wall-seam algorithm equivalence, wall-seam geometry equivalence, seam visibility, printability, firmware behavior, printer-runtime behavior, GUI behavior, support generation, arc fitting behavior, STEP import, full 3MF import/export, binary G-code, thumbnails, post-processing, host '$'upload, network/device behavior, profile auto-update execution, fork release builds, Bambu Studio, OrcaSlicer, upstream source imports, release behavior, sync automation, and non-Prusa fork behavior remain deferred'
 readonly GCODE_LINE_1="; wall-seam observation fixture"
 readonly GCODE_LINE_2="; source_anchor:SeamAligned.cpp#L16;SeamAligned.cpp#L115-L148;SeamAligned.cpp#L272-L313;SeamAligned.cpp#L463-L525"
 readonly GCODE_LINE_3="; layer_context:layer=0;z=0.200"
@@ -455,7 +456,6 @@ verify_package_readme() {
 
 verify_status_boundaries() {
 	local generated_outputs_count
-	local wall_seam_status_count
 
 	generated_outputs_count="$(awk -F '\t' '$1 == "generated-outputs" && $2 == "in progress" { count++ } END { print count + 0 }' "${status_file}")"
 	if [[ "${generated_outputs_count}" != "1" ]]; then
@@ -469,10 +469,8 @@ verify_status_boundaries() {
 	require_exact_line "${status_file}" "packages/parity/status.tsv" "${ARC_FITTING_STATUS_ROW}" "fork.prusaslicer.arc-fitting status"
 	require_first_field_count "${status_file}" "packages/parity/status.tsv" "fork.prusaslicer.arc-fitting" "1"
 
-	wall_seam_status_count="$(awk -F '\t' '$1 == "fork.prusaslicer.wall-seam" { count++ } END { print count + 0 }' "${status_file}")"
-	if [[ "${wall_seam_status_count}" != "0" ]]; then
-		error "packages/parity/status.tsv: no fork.prusaslicer.wall-seam status row may be published in Phase 63"
-	fi
+	require_exact_line "${status_file}" "packages/parity/status.tsv" "${WALL_SEAM_STATUS_ROW}" "fork.prusaslicer.wall-seam status"
+	require_first_field_count "${status_file}" "packages/parity/status.tsv" "fork.prusaslicer.wall-seam" "1"
 }
 
 for required_file in \
