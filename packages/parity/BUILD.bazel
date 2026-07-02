@@ -177,6 +177,23 @@ sh_binary(
     ],
 )
 
+sh_binary(
+    name = "prusaslicer_wall_seam_parity",
+    srcs = ["compare_prusaslicer_wall_seam.sh"],
+    data = [
+        "status.tsv",
+        "//packages/slic3r-rust/crates/slic3r_flavors:prusa_wall_seam_summary",
+        "//packages/parity-fixtures:prusa_wall_seam_expected_wall_seam_summary",
+        "//packages/parity-fixtures:prusa_wall_seam_provenance",
+    ],
+    args = [
+        "$(location //packages/slic3r-rust/crates/slic3r_flavors:prusa_wall_seam_summary)",
+        "$(location //packages/parity-fixtures:prusa_wall_seam_expected_wall_seam_summary)",
+        "$(location //packages/parity-fixtures:prusa_wall_seam_expected_wall_seam_summary)",
+        "$(location //packages/parity-fixtures:prusa_wall_seam_provenance)",
+    ],
+)
+
 sh_test(
     name = "prusaslicer_profile_schema_parity_failure_test",
     srcs = ["compare_prusaslicer_profile_schema_test.sh"],
