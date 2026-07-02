@@ -334,6 +334,38 @@ test_wrong_wall_seam_status_target_fails() {
 	assert_contains "${tmp_dir}/wrong-wall-seam-status-target.err" '//packages/parity:prusaslicer_wall_seam_parity'
 }
 
+test_stale_scope_status_label_fails() {
+	# Arrange
+	local dir="${tmp_dir}/stale-scope-status-label"
+	write_valid_fixture "${dir}"
+	replace_text "${dir}/wall-seam-scope.md" "Published narrow status row" "Planned narrow status token"
+
+	# Act
+	if run_verifier "${dir}" "${tmp_dir}/stale-scope-status-label.out" "${tmp_dir}/stale-scope-status-label.err"; then
+		fail "stale scope status label fixture passed"
+	fi
+
+	# Assert
+	assert_contains "${tmp_dir}/stale-scope-status-label.err" '^error:'
+	assert_contains "${tmp_dir}/stale-scope-status-label.err" 'Published narrow status row'
+}
+
+test_stale_published_status_section_fails() {
+	# Arrange
+	local dir="${tmp_dir}/stale-published-status-section"
+	write_valid_fixture "${dir}"
+	replace_text "${dir}/wall-seam-scope.md" "## Published Status Wording" "## Planned Status Wording"
+
+	# Act
+	if run_verifier "${dir}" "${tmp_dir}/stale-published-status-section.out" "${tmp_dir}/stale-published-status-section.err"; then
+		fail "stale published status section fixture passed"
+	fi
+
+	# Assert
+	assert_contains "${tmp_dir}/stale-published-status-section.err" '^error:'
+	assert_contains "${tmp_dir}/stale-published-status-section.err" 'Published Status Wording'
+}
+
 test_gcode_output_status_drift_fails() {
 	# Arrange
 	local dir="${tmp_dir}/gcode-output-status-drift"
@@ -464,6 +496,8 @@ test_generated_outputs_promotion_fails
 test_missing_wall_seam_status_row_fails
 test_duplicate_wall_seam_status_row_fails
 test_wrong_wall_seam_status_target_fails
+test_stale_scope_status_label_fails
+test_stale_published_status_section_fails
 test_gcode_output_status_drift_fails
 test_arc_fitting_status_drift_fails
 test_missing_deferred_scope_term_fails
