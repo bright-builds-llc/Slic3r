@@ -134,6 +134,31 @@ boundaries.
   post-processing, host upload, network/device behavior, profile auto-update
   execution, fork release builds, Bambu Studio, OrcaSlicer, upstream source
   imports, release behavior, sync automation, or non-Prusa fork behavior.
+- `prusaslicer.wall-seam` fixture work starts from
+  [`packages/prusa-wall-seam-scope`](../../packages/prusa-wall-seam-scope)
+  and its Phase 62 scope contract. Phase 63 created
+  `packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam/`,
+  `wall-seam-observations.gcode`, `fixture-provenance.tsv`, and
+  `expected-wall-seam-summary.tsv`; Phase 64 owns
+  `slic3r_flavors::prusa_wall_seam` and
+  `prusa_wall_seam_summary_lines`; Phase 65 publishes
+  `bazel run //packages/parity:prusaslicer_wall_seam_parity` and
+  `fork.prusaslicer.wall-seam` for the narrow Prusa wall-seam checked-in
+  summary evidence slice. The evidence chain is Phase 62 scope contract, Phase
+  63 fixture corpus, Phase 64 Rust parser/readiness boundary, and Phase 65
+  public command/status/docs. Broad `generated-outputs` remains `in progress`,
+  `fork.prusaslicer.gcode-output` remains separate, and
+  `fork.prusaslicer.arc-fitting` remains separate.
+- The verified `prusaslicer.wall-seam` evidence slice does not prove
+  byte-for-byte G-code parity, full generated-output parity, broad
+  generated-output verification, full wall-seam algorithm equivalence,
+  wall-seam geometry equivalence, seam visibility, printability, firmware
+  behavior, printer-runtime behavior, GUI behavior, support generation, arc
+  fitting behavior, STEP import, full 3MF import/export, binary G-code,
+  thumbnails, post-processing, host upload, network/device behavior, profile
+  auto-update execution, fork release builds, Bambu Studio, OrcaSlicer,
+  upstream source imports, release behavior, sync automation, or non-Prusa fork
+  behavior.
 - The Phase 38 Prusa fixture namespace update route is: update only after a reviewed intake change updates packages/fork-vendors/forks.tsv and the Prusa checklist/baseline gate.
   Branch-head observations remain drift-only.
 - When a change adds, removes, or materially alters a fixture-backed parity
@@ -197,6 +222,27 @@ boundaries.
   post-processing, host upload, network/device behavior, profile auto-update
   execution, fork release builds, Bambu Studio, OrcaSlicer, upstream source
   imports, release behavior, sync automation, or non-Prusa fork behavior.
+- `fork.prusaslicer.wall-seam` is verified for the narrow Prusa wall-seam
+  checked-in summary evidence slice only. Its executable evidence is
+  `bazel run //packages/parity:prusaslicer_wall_seam_parity`, backed by
+  `packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam/expected-wall-seam-summary.tsv`,
+  `slic3r_flavors::prusa_wall_seam`,
+  `prusa_wall_seam_summary_lines`, the Phase 62 scope contract, Phase 63
+  fixture corpus, Phase 64 Rust parser/readiness boundary, and Phase 65 public
+  command/status/docs. Broad `generated-outputs` remains `in progress`,
+  existing semantic Prusa G-code output evidence remains separate under
+  `fork.prusaslicer.gcode-output`, and existing Prusa arc-fitting evidence
+  remains separate under `fork.prusaslicer.arc-fitting`.
+- The verified `fork.prusaslicer.wall-seam` evidence slice does not prove
+  byte-for-byte G-code parity, full generated-output parity, broad
+  generated-output verification, full wall-seam algorithm equivalence,
+  wall-seam geometry equivalence, seam visibility, printability, firmware
+  behavior, printer-runtime behavior, GUI behavior, support generation, arc
+  fitting behavior, STEP import, full 3MF import/export, binary G-code,
+  thumbnails, post-processing, host upload, network/device behavior, profile
+  auto-update execution, fork release builds, Bambu Studio, OrcaSlicer,
+  upstream source imports, release behavior, sync automation, or non-Prusa fork
+  behavior.
 - Phase 39 creates parser/metadata readiness only through
   `slic3r_flavors::prusa_profile`, `parse_prusa_profile_bundle`, and
   `prusa_profile_schema_metadata`. It traces `prusaslicer.profile-schema` to
