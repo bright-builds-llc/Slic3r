@@ -137,7 +137,14 @@ Phase 3 changes the Rust workspace/tooling surface only. User-facing parity surf
   summary, Phase 55 Rust semantic parser/readiness boundary, and Phase 56
   public parity command/status wiring. The broad generated-outputs status
   remains in progress.
-- `bazel run //packages/parity:prusaslicer_arc_fitting_parity` is the shared public command for the narrow Prusa arc-fitting checked-in summary evidence slice backed by the Phase 57 scope contract, Phase 58 fixture corpus, Phase 59 Rust parser/readiness boundary, and Phase 60 public command/status/docs.
+- `bazel run //packages/parity:prusaslicer_arc_fitting_parity` is the shared
+  public command for the narrow Prusa arc-fitting checked-in summary evidence
+  slice backed by the Phase 57 scope contract, Phase 58 fixture corpus, Phase
+  59 Rust parser/readiness boundary, and Phase 60 public command/status/docs.
+- `bazel run //packages/parity:prusaslicer_wall_seam_parity` is the shared
+  public command for the narrow Prusa wall-seam checked-in summary evidence
+  slice backed by the Phase 62 scope contract, Phase 63 fixture corpus, Phase
+  64 Rust parser/readiness boundary, and Phase 65 public command/status/docs.
 - `linux.packaged-launcher` and `windows.packaged-launcher` are checked-in
   status rows in `packages/parity/status.tsv`
 - `packages/parity/status.tsv` is the checked-in status data source
@@ -154,6 +161,7 @@ Phase 3 changes the Rust workspace/tooling surface only. User-facing parity surf
   - `linux.packaged-launcher`
   - `windows.packaged-launcher`
   - `prusaslicer.arc-fitting`
+  - `prusaslicer.wall-seam`
 
 ## Current Fork Vendor Intake State
 
@@ -390,6 +398,37 @@ automation remain deferred.
   post-processing, host upload, network/device behavior, profile auto-update
   execution, fork release builds, Bambu Studio, OrcaSlicer, upstream source
   imports, release behavior, sync automation, or non-Prusa fork behavior.
+
+## Current Prusa Wall-Seam Evidence State
+
+- `packages/prusa-wall-seam-scope` owns the Phase 62 scope contract and
+  verifier for `prusaslicer.wall-seam`.
+- The accepted source identity is
+  `prusaslicer:version_2.9.5@9a583bd438b195856f3bcf7ea99b69ba4003a961`, with
+  source path `src/libslic3r/GCode/SeamAligned.cpp`.
+- The fixture namespace is
+  `packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam/`, and the
+  expected artifact is `expected-wall-seam-summary.tsv`.
+- The Rust boundary is `slic3r_flavors::prusa_wall_seam`, with helper
+  `prusa_wall_seam_summary_lines` over caller-supplied checked-in TSV
+  artifacts.
+- Phase 65 publishes
+  `bazel run //packages/parity:prusaslicer_wall_seam_parity` and the exact
+  `fork.prusaslicer.wall-seam` row in `packages/parity/status.tsv` for the
+  narrow Prusa wall-seam checked-in summary evidence slice.
+- Evidence chain: Phase 62 scope contract, Phase 63 fixture corpus, Phase 64 Rust parser/readiness boundary, and Phase 65 public command/status/docs.
+- Existing `fork.prusaslicer.gcode-output` and
+  `fork.prusaslicer.arc-fitting` remain separate, and broad
+  `generated-outputs` remains `in progress`.
+- The wall-seam evidence does not prove byte-for-byte G-code parity, full
+  generated-output parity, broad generated-output verification, full wall-seam
+  algorithm equivalence, wall-seam geometry equivalence, seam visibility,
+  printability, firmware behavior, printer-runtime behavior, GUI behavior,
+  support generation, arc fitting behavior, STEP import, full 3MF
+  import/export, binary G-code, thumbnails, post-processing, host upload,
+  network/device behavior, profile auto-update execution, fork release builds,
+  Bambu Studio, OrcaSlicer, upstream source imports, release behavior, sync
+  automation, or non-Prusa fork behavior.
 
 ## v1.9 Fork Parity Deferrals
 
