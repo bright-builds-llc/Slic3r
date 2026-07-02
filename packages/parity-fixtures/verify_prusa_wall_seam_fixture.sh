@@ -244,6 +244,8 @@ reject_overclaiming_text() {
 	local checked_file
 	local checked_label
 	local checked_line
+	local checked_segment
+	local checked_segments
 	local allowed_boundary_pattern
 	local overclaim_pattern
 	local overclaim_term_then_verb_pattern
@@ -263,12 +265,19 @@ reject_overclaiming_text() {
 	for checked_file in "${fixture_readme}" "${package_readme}" "${provenance_file}" "${wall_summary_file}" "${BASH_SOURCE[0]}"; do
 		checked_label="$(basename "${checked_file}")"
 		while IFS= read -r checked_line; do
-			if grep -Eiq -- "${allowed_boundary_pattern}" <<<"${checked_line}"; then
-				continue
-			fi
-			if grep -Eiq -- "${overclaim_pattern}" <<<"${checked_line}"; then
-				error "${checked_label}: forbidden Prusa wall-seam fixture overclaim"
-			fi
+			checked_segments="${checked_line//;/$'\n'}"
+			checked_segments="${checked_segments//./$'\n'}"
+			while IFS= read -r checked_segment; do
+				if [[ -z "${checked_segment//[[:space:]]/}" ]]; then
+					continue
+				fi
+				if grep -Eiq -- "${allowed_boundary_pattern}" <<<"${checked_segment}"; then
+					continue
+				fi
+				if grep -Eiq -- "${overclaim_pattern}" <<<"${checked_segment}"; then
+					error "${checked_label}: forbidden Prusa wall-seam fixture overclaim"
+				fi
+			done <<<"${checked_segments}"
 		done <"${checked_file}"
 	done
 }

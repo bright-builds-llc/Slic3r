@@ -323,6 +323,22 @@ test_deferred_surface_overclaim_mutations_fail() {
 	done
 }
 
+test_same_line_deferred_surface_overclaim_fails() {
+	# Arrange
+	local dir="${tmp_dir}/same-line-deferred-surface-overclaim"
+	local readme_file="${dir}/packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam/README.md"
+	write_valid_fixture_copy "${dir}"
+	printf '\nPhase 63 proves profile auto-update execution; sync automation remains deferred.\n' >>"${readme_file}"
+
+	# Act
+	if run_verifier "${dir}" "${tmp_dir}/same-line-deferred-surface-overclaim.out" "${tmp_dir}/same-line-deferred-surface-overclaim.err"; then
+		fail "same-line deferred surface overclaim passed"
+	fi
+
+	# Assert
+	assert_contains_all "${tmp_dir}/same-line-deferred-surface-overclaim.err" "README.md" "forbidden Prusa wall-seam fixture overclaim"
+}
+
 test_wrong_source_ref_fails() {
 	# Arrange
 	local dir="${tmp_dir}/wrong-source-ref"
@@ -598,6 +614,7 @@ for test_name in \
 	test_unsupported_wall_seam_field_fails \
 	test_unsupported_broad_claim_text_fails \
 	test_deferred_surface_overclaim_mutations_fail \
+	test_same_line_deferred_surface_overclaim_fails \
 	test_wrong_source_ref_fails \
 	test_wrong_fixture_identity_fails \
 	test_wrong_fixture_path_fails \
