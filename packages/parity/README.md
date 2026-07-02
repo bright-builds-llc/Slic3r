@@ -43,6 +43,10 @@
   fixture comparison for the narrow Prusa arc-fitting checked-in summary
   evidence slice backed by `expected-arc-summary.tsv`. Public proof:
   checked-in arc summary evidence only.
+- `bazel run //packages/parity:prusaslicer_wall_seam_parity` runs the shared
+  fixture comparison for the narrow Prusa wall-seam checked-in summary evidence
+  slice backed by `expected-wall-seam-summary.tsv`. Public proof: checked-in
+  wall-seam summary evidence only.
 - `status.tsv` is the checked-in data source for those commands and status
   rows.
 
@@ -127,6 +131,15 @@ That command validates the checked-in artifact through the Rust boundary
 `slic3r_flavors::prusa_arc_fitting` and helper
 `prusa_arc_fitting_summary_lines`. The evidence chain is Phase 57 scope contract, Phase 58 fixture corpus, Phase 59 Rust parser/readiness boundary, and Phase 60 public command/status/docs. The broad `generated-outputs` row remains `in progress`, and existing semantic Prusa G-code output evidence remains separate under `fork.prusaslicer.gcode-output`.
 
+`fork.prusaslicer.wall-seam` is verified only for the narrow Prusa wall-seam
+checked-in summary evidence slice. The evidence command is
+`bazel run //packages/parity:prusaslicer_wall_seam_parity`, and the checked
+artifact is
+`packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam/expected-wall-seam-summary.tsv`.
+That command validates the checked-in artifact through the Rust boundary
+`slic3r_flavors::prusa_wall_seam` and helper
+`prusa_wall_seam_summary_lines`. The evidence chain is Phase 62 scope contract, Phase 63 fixture corpus, Phase 64 Rust parser/readiness boundary, and Phase 65 public command/status/docs. The broad `generated-outputs` row remains `in progress`, existing semantic Prusa G-code output evidence remains separate under `fork.prusaslicer.gcode-output`, and existing Prusa arc-fitting evidence remains separate under `fork.prusaslicer.arc-fitting`.
+
 Future fork status tokens should use `fork.<inventory_id>` or an
 inventory-derived stable slug that traces back to `packages/fork-inventories`.
 A fork row may become `verified` only when maintainers can rerun a real
@@ -139,12 +152,13 @@ profile auto-update execution, non-free plugin ingestion, vendor sync
 automation, fork release packaging, or status evidence by themselves.
 
 Byte-for-byte G-code parity, full generated-output parity, broad
-generated-output verification, full ArcWelder algorithm equivalence, tolerance
-or geometry parity, toolpath geometry, extrusion, timing, support generation,
-wall seam behavior, STEP import, full 3MF import/export, full PrusaSlicer
-runtime support, printer-runtime behavior, firmware or printability, GUI
-project behavior, GUI export or viewer behavior, binary G-code, thumbnails,
-post-processing, host upload, network/device integration, profile auto-update
-execution, fork release builds, Bambu Studio, OrcaSlicer, upstream source
-imports, release behavior, sync automation, and non-Prusa fork behavior remain
-deferred.
+generated-output verification, full wall-seam algorithm equivalence, wall-seam
+geometry equivalence, seam visibility, full ArcWelder algorithm equivalence,
+tolerance or geometry parity, toolpath geometry, extrusion, timing, support
+generation, arc fitting behavior, STEP import, full 3MF import/export, full
+PrusaSlicer runtime support, printer-runtime behavior, firmware behavior,
+printability, GUI project behavior, GUI export or viewer behavior, binary
+G-code, thumbnails, post-processing, host upload, network/device integration,
+profile auto-update execution, fork release builds, Bambu Studio, OrcaSlicer,
+upstream source imports, release behavior, sync automation, and non-Prusa fork
+behavior remain deferred.

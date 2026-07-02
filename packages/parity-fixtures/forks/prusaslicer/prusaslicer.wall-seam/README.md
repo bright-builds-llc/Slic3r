@@ -29,18 +29,15 @@ sync behavior do not update these checked-in fixture bytes or summary rows.
 
 Phase 63 owns only the checked-in `prusaslicer.wall-seam` fixture namespace,
 provenance, and expected summary. Phase 64 owns
-`slic3r_flavors::prusa_wall_seam` Rust parser/readiness work. Phase 65 owns
-`bazel run //packages/parity:prusaslicer_wall_seam_parity` and the planned
-`fork.prusaslicer.wall-seam` status row for checked-in wall-seam summary
-evidence only.
+`slic3r_flavors::prusa_wall_seam` Rust parser/readiness work. Phase 65 publishes bazel run //packages/parity:prusaslicer_wall_seam_parity and the fork.prusaslicer.wall-seam status row for checked-in wall-seam summary evidence only.
 
 This namespace does not add byte-for-byte G-code parity, full generated-output
 parity, broad generated-output verification, full wall-seam algorithm
-equivalence, seam visibility, tolerance or geometry parity, printability,
+equivalence, wall-seam geometry equivalence, seam visibility, printability,
 firmware behavior, printer-runtime behavior, GUI behavior, support generation,
 arc fitting behavior, STEP import, full 3MF import/export, binary G-code,
 thumbnails, post-processing, host upload, network/device behavior, profile
-auto-update execution, fork release builds, Bambu Studio behavior,
-OrcaSlicer behavior, upstream source import, release behavior, sync behavior,
-or non-Prusa fork behavior. The generated-output status promotion boundary
-remains outside this checked-in fixture corpus.
+auto-update execution, fork release builds, Bambu Studio, OrcaSlicer, upstream
+source import, release behavior, sync behavior, or non-Prusa fork behavior. The
+generated-output status promotion boundary remains outside this checked-in
+fixture corpus.

@@ -97,17 +97,18 @@ verify the fixture corpus with
 `bazel run //packages/parity-fixtures:verify_prusa_wall_seam_fixture`. The
 source ref is
 `prusaslicer:version_2.9.5@9a583bd438b195856f3bcf7ea99b69ba4003a961`, and
-the source path is `src/libslic3r/GCode/SeamAligned.cpp`. Phase 64 owns `slic3r_flavors::prusa_wall_seam` checked-in summary parser/readiness work. Phase 65 owns `bazel run //packages/parity:prusaslicer_wall_seam_parity` and `fork.prusaslicer.wall-seam`. Phase 63 does not update `packages/parity/status.tsv`, public parity behavior, Rust crates, or `docs/port/*`. The broad `generated-outputs` status remains `in progress`, the `fork.prusaslicer.gcode-output` row remains limited to the Phase 53 through Phase 56 semantic evidence slice, and the `fork.prusaslicer.arc-fitting` row remains limited to the Phase 57 through Phase 60 checked-in arc summary evidence slice.
+the source path is `src/libslic3r/GCode/SeamAligned.cpp`. Phase 64 owns `slic3r_flavors::prusa_wall_seam` checked-in summary parser/readiness work. Phase 65 publishes bazel run //packages/parity:prusaslicer_wall_seam_parity and the fork.prusaslicer.wall-seam status row for checked-in wall-seam summary evidence only. Phase 63 does not update `packages/parity/status.tsv`, public parity behavior, Rust crates, or `docs/port/*`. The broad `generated-outputs` status remains `in progress`, the `fork.prusaslicer.gcode-output` row remains limited to the Phase 53 through Phase 56 semantic evidence slice, and the `fork.prusaslicer.arc-fitting` row remains limited to the Phase 57 through Phase 60 checked-in arc summary evidence slice.
 
 The G-code fixture namespace itself does not prove byte-for-byte G-code
-parity, broad generated-output verification, full generated-output parity,
-toolpath geometry, extrusion, timing, support generation, wall seam behavior,
-arc fitting, STEP import, full 3MF import/export, printer-runtime behavior,
-firmware or printability behavior, GUI behavior, GUI export or viewer behavior,
-binary G-code, thumbnails, post-processing, host upload, network/device
-integration, profile auto-update execution, fork release builds, Bambu Studio,
-OrcaSlicer, non-Prusa fork behavior, upstream source imports, release behavior,
-or sync automation remain deferred.
+parity, full generated-output parity, broad generated-output verification, full
+wall-seam algorithm equivalence, wall-seam geometry equivalence, seam
+visibility, toolpath geometry, extrusion, timing, support generation, arc
+fitting behavior, STEP import, full 3MF import/export, printer-runtime
+behavior, firmware behavior, printability, GUI behavior, GUI export or viewer
+behavior, binary G-code, thumbnails, post-processing, host upload,
+network/device integration, profile auto-update execution, fork release builds,
+Bambu Studio, OrcaSlicer, non-Prusa fork behavior, upstream source imports,
+release behavior, or sync automation remain deferred.
 
 Update route: update only after a reviewed intake change updates packages/fork-vendors/forks.tsv and the Prusa checklist/baseline gate.
 Branch-head observations remain drift-only.
@@ -199,7 +200,7 @@ additional fixture files by themselves.
   `bazel run //packages/parity-fixtures:verify_prusa_wall_seam_fixture`.
   The source ref is
   `prusaslicer:version_2.9.5@9a583bd438b195856f3bcf7ea99b69ba4003a961`, and
-  the source path is `src/libslic3r/GCode/SeamAligned.cpp`. Phase 64 owns `slic3r_flavors::prusa_wall_seam` checked-in summary parser/readiness work. Phase 65 owns `bazel run //packages/parity:prusaslicer_wall_seam_parity` and `fork.prusaslicer.wall-seam`. Phase 63 does not update `packages/parity/status.tsv`, public parity behavior, Rust crates, or `docs/port/*`.
+  the source path is `src/libslic3r/GCode/SeamAligned.cpp`. Phase 64 owns `slic3r_flavors::prusa_wall_seam` checked-in summary parser/readiness work. Phase 65 publishes bazel run //packages/parity:prusaslicer_wall_seam_parity and the fork.prusaslicer.wall-seam status row for checked-in wall-seam summary evidence only. Phase 63 does not update `packages/parity/status.tsv`, public parity behavior, Rust crates, or `docs/port/*`.
   The broad `generated-outputs` status remains `in progress`, the
   `fork.prusaslicer.gcode-output` row remains limited to semantic G-code
   evidence, and the `fork.prusaslicer.arc-fitting` row remains limited to
