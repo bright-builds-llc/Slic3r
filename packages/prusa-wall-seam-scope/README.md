@@ -5,12 +5,12 @@
 Run `bazel run //packages/prusa-wall-seam-scope:verify` to check the reviewed
 Phase 62 wall-seam scope contract.
 
-Phase 62 records the accepted source identity, inventory row, source anchors,
+Phase 62 recorded the accepted source identity, inventory row, source anchors,
 planned fixture namespace, planned expected wall-seam summary, planned Rust
 boundary, security note, deferred generated-output scope, and reviewer signoff
 for the narrow `prusaslicer.wall-seam` evidence slice.
 
-Phase 65 is expected to publish
+Phase 65 now publishes
 `bazel run //packages/parity:prusaslicer_wall_seam_parity` and
 `fork.prusaslicer.wall-seam` for checked-in wall-seam summary evidence only.
 
@@ -28,8 +28,8 @@ through Phase 60 Prusa arc-fitting checked-in summary evidence slice. Broad
 ## Records
 
 - [`wall-seam-scope.md`](wall-seam-scope.md) records the Phase 62 maintainer
-  scope contract, approved wall-seam evidence field list, traceability, planned
-  Phase 65 command/status wording, security note, and deferred scope for
+  scope contract, approved wall-seam evidence field list, traceability,
+  published Phase 65 command/status wording, security note, and deferred scope for
   `prusaslicer.wall-seam`.
 
 ## Boundary

@@ -52,7 +52,7 @@ readonly SCOPE_RECORD_SECTION="## Scope Record"
 readonly SOURCE_ROW_SECTION="## Source Row Details"
 readonly WALL_SEAM_FIELD_SECTION="## Approved Wall-Seam Evidence Fields"
 readonly TRACEABILITY_SECTION="## Wall-Seam Traceability"
-readonly STATUS_WORDING_SECTION="## Planned Status Wording"
+readonly STATUS_WORDING_SECTION="## Published Status Wording"
 
 require_file() {
 	local file="$1"
@@ -201,9 +201,9 @@ verify_scope_record() {
 	require_section_table_row "${scope_file}" "wall-seam-scope.md" \
 		"${SCOPE_RECORD_SECTION}" "Candidate Rust boundary" "Phase 64 planned \`slic3r_flavors::prusa_wall_seam\` pure data-in/data-out boundary over caller-supplied checked-in wall-seam summaries; no Rust parser implementation is created in Phase 62."
 	require_section_table_row "${scope_file}" "wall-seam-scope.md" \
-		"${SCOPE_RECORD_SECTION}" "Planned evidence command" "Phase 65 planned \`bazel run //packages/parity:prusaslicer_wall_seam_parity\`; Phase 62 only plans the target and does not create it."
+		"${SCOPE_RECORD_SECTION}" "Public evidence command" "Phase 65 published \`bazel run //packages/parity:prusaslicer_wall_seam_parity\`; Phase 62 only planned the target and did not create it."
 	require_section_table_row "${scope_file}" "wall-seam-scope.md" \
-		"${SCOPE_RECORD_SECTION}" "Planned status token" "Phase 65 planned \`fork.prusaslicer.wall-seam\`; no verified status row is published in Phase 62."
+		"${SCOPE_RECORD_SECTION}" "Published narrow status row" "Phase 65 published \`fork.prusaslicer.wall-seam\` after executable evidence passed; Phase 62 only planned the row and did not publish it."
 	require_section_table_row "${scope_file}" "wall-seam-scope.md" \
 		"${SCOPE_RECORD_SECTION}" "Docs touched" "\`packages/prusa-wall-seam-scope/README.md\`; \`packages/prusa-wall-seam-scope/wall-seam-scope.md\`"
 	require_section_table_row "${scope_file}" "wall-seam-scope.md" \
@@ -283,7 +283,9 @@ verify_traceability_record() {
 	require_section_table_row "${scope_file}" "wall-seam-scope.md" \
 		"${TRACEABILITY_SECTION}" "Planned Rust boundary" "\`slic3r_flavors::prusa_wall_seam\`"
 	require_section_table_row "${scope_file}" "wall-seam-scope.md" \
-		"${TRACEABILITY_SECTION}" "Planned public evidence command" "\`bazel run //packages/parity:prusaslicer_wall_seam_parity\`"
+		"${TRACEABILITY_SECTION}" "Public evidence command" "\`bazel run //packages/parity:prusaslicer_wall_seam_parity\`"
+	require_section_table_row "${scope_file}" "wall-seam-scope.md" \
+		"${TRACEABILITY_SECTION}" "Published narrow status row" "Phase 65 published \`fork.prusaslicer.wall-seam\` as the narrow v1.16 checked-in wall-seam summary evidence slice backed by the Phase 62 scope contract, Phase 63 fixture corpus, Phase 64 Rust parser/readiness boundary, and Phase 65 public parity command."
 	require_section_table_row "${scope_file}" "wall-seam-scope.md" \
 		"${TRACEABILITY_SECTION}" "Existing G-code status row" "\`fork.prusaslicer.gcode-output\` stays limited to the existing semantic Prusa G-code evidence slice backed by Phase 53 through Phase 56."
 	require_section_table_row "${scope_file}" "wall-seam-scope.md" \
@@ -292,14 +294,14 @@ verify_traceability_record() {
 		"${TRACEABILITY_SECTION}" "Broad status row" "\`generated-outputs\` stays \`in progress\` in \`packages/parity/status.tsv\`."
 }
 
-verify_planned_status_wording() {
+verify_published_status_wording() {
 	require_text "${scope_file}" "wall-seam-scope.md" "${STATUS_WORDING_SECTION}"
 	require_text "${scope_file}" "wall-seam-scope.md" \
-		"The Phase 65 planned status token is \`fork.prusaslicer.wall-seam\`."
+		"The Phase 65 published status token is \`fork.prusaslicer.wall-seam\`."
 	require_text "${scope_file}" "wall-seam-scope.md" \
-		"Phase 65 should publish \`fork.prusaslicer.wall-seam\` as the narrow v1.16"
+		"Phase 65 published \`fork.prusaslicer.wall-seam\` as the narrow v1.16"
 	require_text "${scope_file}" "wall-seam-scope.md" \
-		"does not publish it."
+		"and Phase 65 public parity command."
 }
 
 verify_inventory_row() {
@@ -385,11 +387,16 @@ reject_overclaiming_text() {
 }
 
 reject_stale_publication_wording() {
+	local planned_prefix="Planned"
+	local phase_65_plan_prefix="Phase 65 plan"
+
 	for stale_pattern in \
-		"Published narrow status row" \
-		"Published status wording" \
-		"## Published Status Wording" \
-		"Phase 65 published \`fork.prusaslicer.wall-seam\`"; do
+		"${planned_prefix} evidence command" \
+		"${planned_prefix} status token" \
+		"${planned_prefix} public evidence command" \
+		"${planned_prefix} narrow status token" \
+		"## ${planned_prefix} Status Wording" \
+		"${phase_65_plan_prefix}ned \`fork.prusaslicer.wall-seam\`"; do
 		reject_text "${scope_file}" "wall-seam-scope.md" "${stale_pattern}"
 	done
 }
@@ -425,7 +432,7 @@ main() {
 	verify_source_row_details
 	verify_wall_seam_field_contract
 	verify_traceability_record
-	verify_planned_status_wording
+	verify_published_status_wording
 	verify_inventory_row
 	verify_status_boundaries
 	reject_overclaiming_text

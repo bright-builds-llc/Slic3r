@@ -19,8 +19,8 @@ behavior.
 | Fixture namespace decision | Phase 63 planned namespace `packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam/`; no fixture bytes are checked in during Phase 62. |
 | Expected-summary contract | Phase 63 planned `packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam/expected-wall-seam-summary.tsv` with the approved Phase 62 wall-seam evidence fields; no expected wall-seam summary artifact is checked in during Phase 62. |
 | Candidate Rust boundary | Phase 64 planned `slic3r_flavors::prusa_wall_seam` pure data-in/data-out boundary over caller-supplied checked-in wall-seam summaries; no Rust parser implementation is created in Phase 62. |
-| Planned evidence command | Phase 65 planned `bazel run //packages/parity:prusaslicer_wall_seam_parity`; Phase 62 only plans the target and does not create it. |
-| Planned status token | Phase 65 planned `fork.prusaslicer.wall-seam`; no verified status row is published in Phase 62. |
+| Public evidence command | Phase 65 published `bazel run //packages/parity:prusaslicer_wall_seam_parity`; Phase 62 only planned the target and did not create it. |
+| Published narrow status row | Phase 65 published `fork.prusaslicer.wall-seam` after executable evidence passed; Phase 62 only planned the row and did not publish it. |
 | Docs touched | `packages/prusa-wall-seam-scope/README.md`; `packages/prusa-wall-seam-scope/wall-seam-scope.md` |
 | Security note | No secrets, credentials, private data, runtime file discovery, Git, network, device, host upload, release, sync, upstream import, or printer-runtime behavior is introduced by the Phase 62 wall-seam scope contract. |
 | Deferred scope | Byte-for-byte G-code parity; broad generated-output verification; full wall-seam algorithm or geometry equivalence; seam visibility; printability; firmware behavior; printer-runtime behavior; GUI behavior; support generation; STEP import; full 3MF import/export; binary G-code; thumbnails; post-processing; host upload; network/device behavior; profile auto-update execution; fork release builds; Bambu Studio; OrcaSlicer; upstream source imports; release behavior; sync automation; non-Prusa fork behavior. |
@@ -75,27 +75,26 @@ and the Phase 64 typed Rust boundary. Unknown fields must fail closed.
 | Planned fixture namespace | `packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam/` |
 | Planned expected summary | `packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam/expected-wall-seam-summary.tsv` |
 | Planned Rust boundary | `slic3r_flavors::prusa_wall_seam` |
-| Planned public evidence command | `bazel run //packages/parity:prusaslicer_wall_seam_parity` |
-| Planned narrow status token | Phase 65 planned `fork.prusaslicer.wall-seam` as the narrow v1.16 checked-in wall-seam summary evidence slice backed by the Phase 62 scope contract, Phase 63 fixture corpus, Phase 64 Rust parser/readiness boundary, and Phase 65 public parity command. |
+| Public evidence command | `bazel run //packages/parity:prusaslicer_wall_seam_parity` |
+| Published narrow status row | Phase 65 published `fork.prusaslicer.wall-seam` as the narrow v1.16 checked-in wall-seam summary evidence slice backed by the Phase 62 scope contract, Phase 63 fixture corpus, Phase 64 Rust parser/readiness boundary, and Phase 65 public parity command. |
 | Existing G-code status row | `fork.prusaslicer.gcode-output` stays limited to the existing semantic Prusa G-code evidence slice backed by Phase 53 through Phase 56. |
 | Existing arc-fitting status row | `fork.prusaslicer.arc-fitting` stays limited to the existing arc-fitting evidence slice backed by Phase 57 through Phase 60. |
 | Broad status row | `generated-outputs` stays `in progress` in `packages/parity/status.tsv`. |
 | Docs touched | `packages/prusa-wall-seam-scope/wall-seam-scope.md`; `packages/prusa-wall-seam-scope/README.md` |
 
-## Planned Status Wording
+## Published Status Wording
 
-The Phase 65 planned status token is `fork.prusaslicer.wall-seam`.
+The Phase 65 published status token is `fork.prusaslicer.wall-seam`.
 
-Phase 65 should publish `fork.prusaslicer.wall-seam` as the narrow v1.16
-checked-in wall-seam summary evidence slice backed by the Phase 62 scope
-contract, Phase 63 fixture corpus, Phase 64 Rust parser/readiness boundary,
-and Phase 65 public parity command.
+Phase 65 published `fork.prusaslicer.wall-seam` as the narrow v1.16 checked-in
+wall-seam summary evidence slice backed by the Phase 62 scope contract, Phase
+63 fixture corpus, Phase 64 Rust parser/readiness boundary, and Phase 65
+public parity command.
 
 `generated-outputs` stays `in progress`, `fork.prusaslicer.gcode-output` stays
 limited to the existing semantic Prusa G-code evidence slice, and
 `fork.prusaslicer.arc-fitting` stays limited to the existing arc-fitting
-evidence slice. Phase 62 only plans the `fork.prusaslicer.wall-seam` row and
-does not publish it.
+evidence slice.
 
 ## Boundary
 
