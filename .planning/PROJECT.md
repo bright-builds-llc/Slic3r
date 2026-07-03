@@ -44,9 +44,9 @@ claims deferred.
 
 ## Current State
 
-v1.16 is active. It intentionally follows the v1.12-v1.15 Prusa generated-output
-evidence ladder for the next medium-complexity feature slice:
-`prusaslicer.wall-seam`.
+v1.16 phase work is complete and verified, pending milestone archival. It
+intentionally followed the v1.12-v1.15 Prusa generated-output evidence ladder
+for the next medium-complexity feature slice: `prusaslicer.wall-seam`.
 
 The milestone starts from the source-pinned
 `prusaslicer.wall-seam` fork-inventory row and the existing Prusa G-code
@@ -69,6 +69,17 @@ wall-seam summary through the pure `slic3r_flavors::prusa_wall_seam` Rust
 boundary, inspect static readiness and registry metadata, and run aggregate
 Rust verification while public wall-seam parity target, status row, and docs
 publication remain deferred to Phase 65.
+
+v1.16 Phase 65 is complete and verified. Maintainers can run
+`bazel run //packages/parity:prusaslicer_wall_seam_parity`, inspect the exact
+verified `fork.prusaslicer.wall-seam` status row, and rely on fixture, scope,
+public parity, and docs mutation guards that keep the slice limited to
+checked-in PrusaSlicer wall-seam summary evidence. The existing
+`fork.prusaslicer.gcode-output` and `fork.prusaslicer.arc-fitting` evidence
+remain separate, while broad `generated-outputs`, byte-for-byte G-code parity,
+wall-seam geometry equivalence, printability, printer-runtime behavior, GUI
+behavior, non-Prusa fork behavior, release behavior, upstream imports, and sync
+automation remain deferred.
 
 v1.15 is archived. It reused the v1.12-v1.14 G-code evidence ladder for the
 `prusaslicer.arc-fitting` feature slice, published the exact narrow
@@ -557,22 +568,25 @@ high-risk generated-output or network/cloud surfaces.
 - ✓ v1.15 reconciles the ARCFIX requirements ledger against passed Phase 58
   verification and summary metadata, closing the audit-ledger gap without
   product-surface changes — Phase 61
+- ✓ v1.16 proves a reviewed `prusaslicer.wall-seam` scope contract before
+  fixture, Rust, parity, status, or docs work can claim evidence — Phase 62
 - ✓ v1.16 adds source-pinned wall-seam fixture evidence and expected summaries
   without importing upstream source trees, promoting public wall-seam status,
   or generating broad G-code parity claims — Phase 63
+- ✓ v1.16 adds a pure Rust wall-seam evidence boundary that parses checked-in
+  caller-supplied artifacts without Git, network, filesystem discovery,
+  process, release, sync, or runtime side effects — Phase 64
+- ✓ v1.16 publishes executable wall-seam parity/status/docs evidence only for
+  the narrow PrusaSlicer wall-seam slice, keeping broad generated-output,
+  byte-for-byte, printability, runtime, GUI, non-Prusa fork, release, upstream
+  import, and sync behavior deferred — Phase 65
 
 ### Active
 
-v1.16 active requirements are defined in `.planning/REQUIREMENTS.md` and are
-limited to the PrusaSlicer wall-seam G-code evidence slice:
-
-- SEAMSCOPE-01..03: reviewed wall-seam scope contract, fail-closed scope
-  verifier, and generated-output status restraint.
-- SEAMRUST-01..03: pure typed Rust wall-seam summary boundary, static
-  readiness metadata, and Cargo/Bazel parser coverage.
-- SEAMEV-01..03: public wall-seam executable evidence, mutation guards, exact
-  status/docs wording, and preservation of existing Prusa generated-output
-  evidence rows.
+No v1.16 active requirements remain after Phase 65 verification. The wall-seam
+scope, fixture, Rust boundary, executable evidence, status, and docs
+requirements are validated in `.planning/REQUIREMENTS.md` and the Phase 62-65
+verification artifacts.
 
 ### Out of Scope
 
@@ -664,9 +678,9 @@ The audience for this work is broad:
 | Use arc fitting as the next Prusa generated-output feature slice | Arc fitting is a medium-complexity generated-output candidate that can reuse the v1.12-v1.14 G-code evidence ladder without jumping to support generation, broad generated-output parity, or non-Prusa fork work | ✓ Shipped in v1.15 Phase 60 |
 | Publish arc-fitting as a separate narrow fork status row | Arc-fitting evidence should not widen the existing semantic `fork.prusaslicer.gcode-output` row or broad `generated-outputs` status | ✓ Shipped in v1.15 Phase 60 |
 | Close audit ledger drift with a metadata-only phase | The Phase 58 fixture evidence was already verified, but archive readiness needed requirements checkboxes and traceability to agree with summary frontmatter | ✓ Shipped in v1.15 Phase 61 |
-| Use wall seam as the next Prusa generated-output feature slice | Wall seam is the remaining medium-complexity generated-output candidate that can reuse the v1.12-v1.15 evidence ladder without jumping to support generation, broad generated-output parity, or non-Prusa fork work | Active in v1.16 |
-| Publish wall-seam evidence as a separate narrow fork status row | Wall-seam evidence must not widen the existing semantic `fork.prusaslicer.gcode-output` row, the arc-fitting row, or the broad `generated-outputs` status | Planned for v1.16 |
-| Keep v1.16 summary-only and fail-closed | Seam observations are evidence inputs, not proof of byte-for-byte output, seam geometry equivalence, printability, firmware/runtime behavior, or GUI behavior | Planned for v1.16 |
+| Use wall seam as the next Prusa generated-output feature slice | Wall seam is the remaining medium-complexity generated-output candidate that can reuse the v1.12-v1.15 evidence ladder without jumping to support generation, broad generated-output parity, or non-Prusa fork work | ✓ Shipped in v1.16 Phase 65 |
+| Publish wall-seam evidence as a separate narrow fork status row | Wall-seam evidence must not widen the existing semantic `fork.prusaslicer.gcode-output` row, the arc-fitting row, or the broad `generated-outputs` status | ✓ Shipped in v1.16 Phase 65 |
+| Keep v1.16 summary-only and fail-closed | Seam observations are evidence inputs, not proof of byte-for-byte output, seam geometry equivalence, printability, firmware/runtime behavior, or GUI behavior | ✓ Shipped in v1.16 Phase 65 |
 
 ## Evolution
 
@@ -689,4 +703,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ______________________________________________________________________
 
-*Last updated: 2026-06-27 after completing Phase 63 wall-seam fixture corpus*
+*Last updated: 2026-07-03 after completing Phase 65 executable wall-seam evidence*
