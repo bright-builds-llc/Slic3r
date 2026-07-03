@@ -404,6 +404,22 @@ test_does_not_clause_surface_overclaim_fails() {
 	assert_contains_all "${tmp_dir}/does-not-clause-surface-overclaim.err" "README.md" "forbidden Prusa wall-seam fixture overclaim"
 }
 
+test_or_no_claim_clause_surface_overclaim_fails() {
+	# Arrange
+	local dir="${tmp_dir}/or-no-claim-clause-surface-overclaim"
+	local readme_file="${dir}/packages/parity-fixtures/forks/prusaslicer/prusaslicer.wall-seam/README.md"
+	write_valid_fixture_copy "${dir}"
+	printf '\nPhase 63 proves profile auto-update execution, or no sync automation claim.\n' >>"${readme_file}"
+
+	# Act
+	if run_verifier "${dir}" "${tmp_dir}/or-no-claim-clause-surface-overclaim.out" "${tmp_dir}/or-no-claim-clause-surface-overclaim.err"; then
+		fail "or no-claim clause surface overclaim passed"
+	fi
+
+	# Assert
+	assert_contains_all "${tmp_dir}/or-no-claim-clause-surface-overclaim.err" "README.md" "forbidden Prusa wall-seam fixture overclaim"
+}
+
 test_wrong_source_ref_fails() {
 	# Arrange
 	local dir="${tmp_dir}/wrong-source-ref"
@@ -684,6 +700,7 @@ for test_name in \
 	test_comma_conjunction_deferred_surface_overclaim_fails \
 	test_no_claim_clause_surface_overclaim_fails \
 	test_does_not_clause_surface_overclaim_fails \
+	test_or_no_claim_clause_surface_overclaim_fails \
 	test_wrong_source_ref_fails \
 	test_wrong_fixture_identity_fails \
 	test_wrong_fixture_path_fails \
