@@ -1,6 +1,6 @@
 ---
 phase: 65-executable-wall-seam-evidence
-reviewed: 2026-07-02T23:00:10Z
+reviewed: 2026-07-03T00:19:15Z
 depth: standard
 files_reviewed: 19
 files_reviewed_list:
@@ -25,87 +25,200 @@ files_reviewed_list:
   - packages/slic3r-rust/crates/slic3r_flavors/src/bin/prusa_wall_seam_summary.rs
 findings:
   critical: 0
-  warning: 3
+  warning: 0
   info: 0
-  total: 3
-status: issues_found
+  total: 0
+status: clean
 ---
 
 # Phase 65: Code Review Report
 
-**Reviewed:** 2026-07-02T23:00:10Z
+**Reviewed:** 2026-07-03T00:19:15Z
 **Depth:** standard
 **Files Reviewed:** 19
-**Status:** issues_found
+**Status:** clean
 
 ## Summary
 
-Reviewed the Phase 65 wall-seam docs, shell verifiers/tests, Bazel wiring, parity status row, and Rust summary CLI. The public Bazel target and targeted tests pass, but the no-overclaiming guards are incomplete for deferred wall-seam surfaces, and the new Rust CLI can panic before its error path on non-UTF-8 arguments.
+Final standard-depth re-review completed for the same 19 Phase 65 wall-seam
+docs, fixture verifiers, mutation tests, Bazel wiring, parity status row,
+comparison wrapper, and Rust summary CLI after fix commits `1a9dc5c96`,
+`4c8fa3210`, `e44b5bc99`, `e88735f70`, `5cf792d6e`, `5710a48cd`, and
+`8f5b53afb`.
 
-Material guidance loaded: `AGENTS.md`, `AGENTS.bright-builds.md`, `standards-overrides.md`, `standards/index.md`, `standards/core/architecture.md`, `standards/core/code-shape.md`, `standards/core/testing.md`, `standards/core/verification.md`, and `standards/languages/rust.md`.
+All reviewed files meet quality standards. No Critical, Warning, or Info
+findings remain.
 
-Verification run during review:
+Material guidance loaded for this review: `AGENTS.md`,
+`AGENTS.bright-builds.md`, `standards-overrides.md`, `standards/index.md`,
+`standards/core/code-shape.md`, `standards/core/testing.md`,
+`standards/core/verification.md`, and `standards/languages/rust.md`. No
+repo-local `.claude/skills/` or `.agents/skills/` directory was present.
+
+## Resolution Checks
+
+- Original WR-01 is resolved: fixture overclaim mutations now fail closed.
+- Original WR-02 is resolved: wall-seam scope overclaim mutations now fail
+  closed.
+- Original WR-03 is resolved: non-UTF-8 CLI path arguments return a normal error
+  diagnostic instead of panicking.
+- Later fixture overclaim variants are resolved. The fixture verifier rejects
+  semicolon deferral, comma-plus-`and` deferral, comma-plus-`but no ... claim`,
+  comma-plus-`but does not ...`, and comma-plus-`or no ... claim` overclaim
+  shapes.
+- Genuine deferral and negative-only wording still passes, including the
+  checked-in expected wall-seam summary row containing
+  `no planner, geometry, printability, or printer-runtime behavior claim`.
+
+## Verification
 
 ```bash
-bazel test //packages/parity-fixtures:verify_prusa_wall_seam_fixture_test //packages/prusa-wall-seam-scope:verify //packages/prusa-wall-seam-scope:verify_prusa_wall_seam_scope_test //packages/parity:prusaslicer_wall_seam_parity_failure_test //packages/slic3r-rust/crates/slic3r_flavors:prusa_wall_seam_test //packages/slic3r-rust/crates/slic3r_flavors:rustfmt_check //packages/slic3r-rust/crates/slic3r_flavors:clippy
+git log --oneline -n 20
+```
+
+Result: confirmed all requested review-fix commits are present:
+`1a9dc5c96`, `4c8fa3210`, `e44b5bc99`, `e88735f70`, `5cf792d6e`,
+`5710a48cd`, and `8f5b53afb`.
+
+```bash
+printf '%s\n' <19 reviewed files> | git check-ignore -v --stdin
+```
+
+Result: no reviewed files are ignored.
+
+```bash
+bash -n \
+  packages/parity-fixtures/verify_prusa_wall_seam_fixture.sh \
+  packages/parity-fixtures/verify_prusa_wall_seam_fixture_test.sh \
+  packages/parity/compare_prusaslicer_wall_seam.sh \
+  packages/parity/compare_prusaslicer_wall_seam_test.sh \
+  packages/prusa-wall-seam-scope/verify_prusa_wall_seam_scope.sh \
+  packages/prusa-wall-seam-scope/verify_prusa_wall_seam_scope_test.sh
+```
+
+Result: passed.
+
+```bash
+shellcheck \
+  packages/parity-fixtures/verify_prusa_wall_seam_fixture.sh \
+  packages/parity-fixtures/verify_prusa_wall_seam_fixture_test.sh \
+  packages/parity/compare_prusaslicer_wall_seam.sh \
+  packages/parity/compare_prusaslicer_wall_seam_test.sh \
+  packages/prusa-wall-seam-scope/verify_prusa_wall_seam_scope.sh \
+  packages/prusa-wall-seam-scope/verify_prusa_wall_seam_scope_test.sh
+```
+
+Result: passed.
+
+```bash
+shfmt -d \
+  packages/parity-fixtures/verify_prusa_wall_seam_fixture.sh \
+  packages/parity-fixtures/verify_prusa_wall_seam_fixture_test.sh \
+  packages/parity/compare_prusaslicer_wall_seam.sh \
+  packages/parity/compare_prusaslicer_wall_seam_test.sh \
+  packages/prusa-wall-seam-scope/verify_prusa_wall_seam_scope.sh \
+  packages/prusa-wall-seam-scope/verify_prusa_wall_seam_scope_test.sh
+```
+
+Result: passed with no diff.
+
+```bash
+git diff --check -- <19 reviewed files>
+```
+
+Result: passed.
+
+```bash
+packages/parity-fixtures/verify_prusa_wall_seam_fixture.sh
+```
+
+Result: `ok: Prusa wall-seam fixture verification passed`.
+
+```bash
+packages/parity-fixtures/verify_prusa_wall_seam_fixture_test.sh
+```
+
+Result: `ok: Prusa wall-seam fixture mutation tests passed`.
+
+```bash
+packages/prusa-wall-seam-scope/verify_prusa_wall_seam_scope.sh
+```
+
+Result: `ok: Prusa wall-seam scope verification passed`.
+
+```bash
+packages/prusa-wall-seam-scope/verify_prusa_wall_seam_scope_test.sh
+```
+
+Result: `ok: verify_prusa_wall_seam_scope_test`.
+
+```bash
+bazel test --cache_test_results=no --test_output=errors \
+  //packages/parity-fixtures:verify_prusa_wall_seam_fixture_test \
+  //packages/prusa-wall-seam-scope:verify_prusa_wall_seam_scope_test \
+  //packages/parity:prusaslicer_wall_seam_parity_failure_test \
+  //packages/slic3r-rust/crates/slic3r_flavors:prusa_wall_seam_test \
+  //packages/slic3r-rust/crates/slic3r_flavors:rustfmt_check \
+  //packages/slic3r-rust/crates/slic3r_flavors:clippy
+```
+
+Result: build completed successfully; all 5 test targets passed. The included
+clippy target built successfully as the non-test target.
+
+```bash
+bazel run //packages/parity-fixtures:verify_prusa_wall_seam_fixture
+```
+
+Result: `ok: Prusa wall-seam fixture verification passed`.
+
+```bash
+bazel run //packages/prusa-wall-seam-scope:verify
+```
+
+Result: `ok: Prusa wall-seam scope verification passed`.
+
+```bash
 bazel run //packages/parity:prusaslicer_wall_seam_parity
 ```
 
-Both commands completed successfully.
-
-## Warnings
-
-### WR-01: Fixture Overclaim Guard Misses Deferred Claims
-
-**File:** `packages/parity-fixtures/verify_prusa_wall_seam_fixture.sh:250`
-**Issue:** `reject_overclaiming_text` only rejects a curated set of exact `... verified` phrases. It does not reject important deferred claims such as `profile auto-update execution`, `full 3MF import/export`, `binary G-code`, `thumbnails`, `post-processing`, or `non-Prusa fork behavior`, and it misses alternate overclaim verbs such as `proves`. A temporary mutation that appended `Phase 63 proves profile auto-update execution.` to the wall-seam fixture README still passed `verify_prusa_wall_seam_fixture.sh`.
-**Fix:** Use a single deferred-term list plus an overclaim-verb regex, and add mutation tests for every deferred term.
+Result: `ok: fork.prusaslicer.wall-seam checked-in summary evidence passed`;
+the command reported `wall_seam_rows: 12` and
+`evidence_boundary: checked-in-wall-seam-summary-only`.
 
 ```bash
-overclaim_terms='byte-for-byte G-code parity|full generated-output parity|broad generated-output verification|full wall-seam algorithm equivalence|wall-seam geometry equivalence|seam visibility|printability|firmware behavior|printer-runtime behavior|GUI behavior|support generation|arc fitting behavior|STEP import|full 3MF import/export|binary G-code|thumbnails|post-processing|host upload|network/device behavior|profile auto-update execution|fork release builds|Bambu Studio|OrcaSlicer|upstream source imports|release behavior|sync automation|non-Prusa fork behavior'
-overclaim_verbs='proves|verified|verifies|validates?|confirms?|claims?|establishes?|demonstrates?|certifies?'
-if grep -Eiq -- "(${overclaim_verbs}).*(${overclaim_terms})|(${overclaim_terms}).*(${overclaim_verbs})" "${checked_file}"; then
-  error "${checked_label}: forbidden Prusa wall-seam fixture overclaim"
-fi
+python3 -c 'import subprocess; binary=b"bazel-bin/packages/slic3r-rust/crates/slic3r_flavors/prusa_wall_seam_summary"; cp=subprocess.run([binary, b"/tmp/nonutf-\xff.tsv"], capture_output=True); print(f"returncode={cp.returncode}"); print(cp.stderr.decode("utf-8", "replace").splitlines()[0] if cp.stderr else "stderr=")'
 ```
 
-### WR-02: Scope Overclaim Guard Omits Published Deferred Surfaces
-
-**File:** `packages/prusa-wall-seam-scope/verify_prusa_wall_seam_scope.sh:347`
-**Issue:** The scope verifier's regex protects some deferred wall-seam terms, but it omits several terms that the same contract publishes as deferred, including `profile auto-update execution`, `full 3MF import/export`, `binary G-code`, `thumbnails`, `post-processing`, and `fork release builds`. A temporary mutation that appended `Phase 62 proves profile auto-update execution.` to the scope README still passed `verify_prusa_wall_seam_scope.sh`.
-**Fix:** Make `overclaim_terms` match the complete deferred-scope vocabulary and extend `verify_prusa_wall_seam_scope_test.sh` with at least one mutation per deferred surface.
+Result: `returncode=1` with a normal `failed to read /tmp/nonutf-�.tsv`
+diagnostic; no panic occurred.
 
 ```bash
-overclaim_terms='byte-for-byte G-code parity|broad generated-output verification|full wall-seam algorithm or geometry equivalence|full wall-seam algorithm equivalence|wall-seam geometry equivalence|seam visibility|printability|firmware behavior|printer-runtime behavior|GUI behavior|support generation|STEP import|full 3MF import/export|binary G-code|thumbnails|post-processing|host upload|network/device behavior|profile auto-update execution|fork release builds|Bambu Studio|OrcaSlicer|upstream source imports|release behavior|sync automation|non-Prusa fork behavior'
+# isolated fixture mutation harness
 ```
 
-### WR-03: Rust CLI Can Panic On Non-UTF-8 Arguments
+Result:
 
-**File:** `packages/slic3r-rust/crates/slic3r_flavors/src/bin/prusa_wall_seam_summary.rs:8`
-**Issue:** The CLI uses `env::args()`, which can panic while iterating process arguments that are not valid Unicode. That bypasses the explicit `ExitCode::FAILURE` error path and produces a crash instead of the intended diagnostic. This is an edge case for Bazel runfiles, but it is still a direct CLI input path.
-**Fix:** Use `env::args_os()` and pass `OsStr`/`Path` through the same error-returning flow.
-
-```rust
-use std::{env, ffi::OsStr, fs, path::Path, process::ExitCode};
-
-fn main() -> ExitCode {
-    let args: Vec<_> = env::args_os().collect();
-    let result = match args.as_slice() {
-        [_, expected_wall_seam_summary] => run_summary(expected_wall_seam_summary),
-        _ => Err("expected expected-wall-seam-summary.tsv".to_owned()),
-    };
-    /* existing result handling */
-}
-
-fn run_summary(path_arg: &OsStr) -> Result<(), String> {
-    let path = Path::new(path_arg);
-    let input = fs::read_to_string(path)
-        .map_err(|error| format!("failed to read {}: {error}", path.display()))?;
-    /* existing summary handling */
-    Ok(())
-}
+```text
+ok fail semicolon_deferral
+ok fail comma_and_deferral
+ok fail comma_but_no_claim
+ok fail comma_but_does_not
+ok fail comma_or_no_claim
+ok pass deferral_only
+ok pass checked_in_negative_only
+ok checked-in negative-only row present
 ```
 
-_Reviewed: 2026-07-02T23:00:10Z_
+```bash
+rg -n "(password|secret|api_key|token|apikey|api-key)\s*[=:]\s*['\"][^'\"]+['\"]" <19 reviewed files>
+rg -n "eval\(|innerHTML|dangerouslySetInnerHTML|exec\(|system\(|shell_exec|passthru" <19 reviewed files>
+rg -n "console\.log|debugger;|TODO|FIXME|XXX|HACK" <19 reviewed files>
+rg -n "catch\s*\([^)]*\)\s*\{\s*\}" <19 reviewed files>
+```
+
+Result: no actionable hits. The debug-artifact sweep only matched `mktemp`
+`XXXXXX` templates.
+
+_Reviewed: 2026-07-03T00:19:15Z_
 _Reviewer: the agent (gsd-code-reviewer)_
 _Depth: standard_
