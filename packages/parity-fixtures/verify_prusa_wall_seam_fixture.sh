@@ -269,11 +269,9 @@ reject_overclaiming_text() {
 			checked_segments="${checked_segments//./$'\n'}"
 			checked_segments="$(
 				awk '
-					/remain[s]? deferred/ {
-						gsub(/,[[:space:]]+/, "\n")
-						gsub(/[[:space:]]+(and|but)[[:space:]]+/, "\n")
-					}
 					{
+						gsub(/,[[:space:]]+(and|but)[[:space:]]+/, "\n")
+						gsub(/[[:space:]]+(and|but)[[:space:]]+/, "\n")
 						print
 					}
 				' <<<"${checked_segments}"
