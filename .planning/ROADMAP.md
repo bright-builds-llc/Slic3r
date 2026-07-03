@@ -90,7 +90,7 @@ behavior deferred.
   wall-seam summaries through a pure typed Rust boundary with static readiness
   metadata.
 
-- [x] **Phase 65: Executable Wall-Seam Evidence** - Publish public wall-seam (completed 2026-07-02)
+- [x] **Phase 65: Executable Wall-Seam Evidence** - Publish public wall-seam (completed 2026-07-03)
   parity evidence, mutation guards, exact status, and docs for the narrow
   evidence slice.
 
@@ -263,7 +263,7 @@ Phases execute in numeric order: 62 -> 63 -> 64 -> 65
 | 62. Wall-Seam Scope Contract | 3/3 | Complete   | 2026-06-26 |
 | 63. Wall-Seam Fixture Corpus | 2/2 | Complete   | 2026-06-27 |
 | 64. Rust Wall-Seam Evidence Boundary | 2/2 | Complete   | 2026-06-30 |
-| 65. Executable Wall-Seam Evidence | 6/6 | Complete   | 2026-07-02 |
+| 65. Executable Wall-Seam Evidence | 6/6 | Complete    | 2026-07-03 |
 
 ## Planning Notes
 

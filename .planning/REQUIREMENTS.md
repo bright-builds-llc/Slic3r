@@ -65,16 +65,16 @@ roadmap phase and must be verified before milestone archive.
 
 ### Executable Wall-Seam Evidence
 
-- [ ] **SEAMEV-01**: Maintainer can run public Prusa wall-seam parity evidence
+- [x] **SEAMEV-01**: Maintainer can run public Prusa wall-seam parity evidence
   that validates the checked-in wall-seam summary artifact through the Rust
   boundary while preserving the existing public Prusa G-code output and
   arc-fitting command contracts.
-- [ ] **SEAMEV-02**: Maintainer can see fail-closed mutation guards for wall
+- [x] **SEAMEV-02**: Maintainer can see fail-closed mutation guards for wall
   seam drift classes such as seam-transition observation changes, layer or
   travel context changes, coordinate-bound changes, extrusion or retraction
   observation changes, source identity drift, fixture identity drift,
   row-order drift, and unsupported deferred-behavior claims.
-- [ ] **SEAMEV-03**: Maintainer can inspect parity status, package docs, and
+- [x] **SEAMEV-03**: Maintainer can inspect parity status, package docs, and
   port docs that describe the exact narrow `fork.prusaslicer.wall-seam`
   evidence slice while keeping broad `generated-outputs` in progress,
   preserving the existing `fork.prusaslicer.gcode-output` and
@@ -146,9 +146,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEAMRUST-01 | Phase 64 | Complete |
 | SEAMRUST-02 | Phase 64 | Complete |
 | SEAMRUST-03 | Phase 64 | Complete |
-| SEAMEV-01 | Phase 65 | Pending |
-| SEAMEV-02 | Phase 65 | Pending |
-| SEAMEV-03 | Phase 65 | Pending |
+| SEAMEV-01 | Phase 65 | Complete |
+| SEAMEV-02 | Phase 65 | Complete |
+| SEAMEV-03 | Phase 65 | Complete |
 
 **Coverage:**
 
